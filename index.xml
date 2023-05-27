@@ -1,0 +1,26 @@
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>koolaidxk1d</title>
+    <link>https://koolaidxk1d.github.io/</link>
+    <description>Recent content on koolaidxk1d</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 27 May 2023 12:36:33 -0400</lastBuildDate>
+    
+        <atom:link href="https://koolaidxk1d.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>OverTheWire: Leviathan - write up</title>
+        <link>https://koolaidxk1d.github.io/posts/intro/</link>
+        <pubDate>Sat, 27 May 2023 12:36:33 -0400</pubDate>
+        
+        <guid>https://koolaidxk1d.github.io/posts/intro/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/intro/ -- https://koolaidxk1d.github.io/posts/intro/ - </description>
+        </item>
+    
+    
+  </channel>
+</rss> 
