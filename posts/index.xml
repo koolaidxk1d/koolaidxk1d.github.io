@@ -29,7 +29,20 @@ https://new.reddit.com/r/hacking/wiki/index/ - good resources listed here</descr
       <pubDate>Sat, 27 May 2023 12:36:33 -0400</pubDate>
       
       <guid>https://koolaidxk1d.github.io/posts/leviathan/</guid>
-      <description></description>
+      <description>OverTheWire&amp;rsquo;s Leviathan wargame is all about reverse engineering of x86 binaries. The description of the game states that it only requires knowledge of linux command line utilities, and little to no programming experience.
+Each level goes as such:
+ You ssh into the server as the user whose password you obtained from the previous level. Through whatever means necessary, you get the password to the next level.  There are no hints given for any of the levels, so it is completely up to us to figure out what we are looking for.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://koolaidxk1d.github.io/posts/lev-draft/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://koolaidxk1d.github.io/posts/lev-draft/</guid>
+      <description>OverTheWire&amp;rsquo;s Leviathan wargame is all about reverse engineering of x86 binaries. The description of the game states that it only requires knowledge of linux command line utilities, and little to no programming experience.
+Each level goes as such:
+ You ssh into the server as the user whose password you obtained from the previous level. Through whatever means necessary, you get the password to the next level.  There are no hints given for any of the levels, so it is completely up to us to figure out what we are looking for.</description>
     </item>
     
   </channel>
