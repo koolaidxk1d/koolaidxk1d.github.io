@@ -92,11 +92,20 @@
 &lt;p&gt;There&amp;rsquo;s our password!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&#34;level-3---level3&#34;&gt;Level 3 - ~/level3&lt;/h2&gt;
-&lt;p&gt;coming soon&amp;hellip;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s ls the home folder&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan3-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ok, so this seems to just be another password obstacle. Following the flow of the main function brings us to this &amp;ldquo;do_stuff&amp;rdquo; function.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan3-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;On lines 22-23, the program is taking input from the user, putting it into the buffer &amp;ldquo;local_110&amp;rdquo;, and then comparing it to the  string starting at the address of &amp;ldquo;local_11b&amp;rdquo; to determine if the user is allowed to access the shell call made on line 28. So our question is, what is stored at local_11b?&lt;/p&gt;
+&lt;p&gt;On lines 17-19 is our answer. These 3 variables are stored alongside each other in memory, and they contain &amp;ldquo;plns&amp;rdquo;, &amp;ldquo;tnir&amp;rdquo;, and &amp;ldquo;\nf&amp;rdquo;. Reversing these to big endian and concatenating them gives us &amp;ldquo;snlprintf\n&amp;rdquo;. Let&amp;rsquo;s try entering this as the password, omitting the newline character.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan3-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;level-4---trash&#34;&gt;Level 4 - ~/.trash&lt;/h2&gt;
+&lt;p&gt;There&amp;rsquo;s a binary in the .trash folder. Let&amp;rsquo;s see what it gives us.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan4-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;11 bytes of binary. If we convert it to ASCII we get &amp;ldquo;EKKlTF1Xqs&amp;rdquo;. Looks like a password to me!&lt;/p&gt;
+&lt;h2 id=&#34;level-5--&#34;&gt;Level 5 -&lt;/h2&gt;
 - https://koolaidxk1d.github.io/posts/leviathan/ - </description>
         </item>
-    
-    
     
     
   </channel>

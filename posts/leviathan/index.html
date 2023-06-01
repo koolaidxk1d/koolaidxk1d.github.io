@@ -191,6 +191,42 @@ if (!doNotTrack) {
 					
 				
 			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-4---trash" class="nav-level-4---trash">
+									Level 4 - ~/.trash
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-5--" class="nav-level-5--">
+									Level 5 -
+								</a>
+							</li>
+						
+						
+					
+				
+			
 		</ul>
 	</div>
 
@@ -326,7 +362,18 @@ if (!doNotTrack) {
 <p>There&rsquo;s our password!</p>
 <p><em>Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.</em></p>
 <h2 id="level-3---level3">Level 3 - ~/level3</h2>
-<p>coming soon&hellip;</p>
+<p>Let&rsquo;s ls the home folder&hellip;</p>
+<p><img src="/images/leviathan3-0.png" alt=""></p>
+<p>Ok, so this seems to just be another password obstacle. Following the flow of the main function brings us to this &ldquo;do_stuff&rdquo; function.</p>
+<p><img src="/images/leviathan3-1.png" alt=""></p>
+<p>On lines 22-23, the program is taking input from the user, putting it into the buffer &ldquo;local_110&rdquo;, and then comparing it to the  string starting at the address of &ldquo;local_11b&rdquo; to determine if the user is allowed to access the shell call made on line 28. So our question is, what is stored at local_11b?</p>
+<p>On lines 17-19 is our answer. These 3 variables are stored alongside each other in memory, and they contain &ldquo;plns&rdquo;, &ldquo;tnir&rdquo;, and &ldquo;\nf&rdquo;. Reversing these to big endian and concatenating them gives us &ldquo;snlprintf\n&rdquo;. Let&rsquo;s try entering this as the password, omitting the newline character.</p>
+<p><img src="/images/leviathan3-2.png" alt=""></p>
+<h2 id="level-4---trash">Level 4 - ~/.trash</h2>
+<p>There&rsquo;s a binary in the .trash folder. Let&rsquo;s see what it gives us.</p>
+<p><img src="/images/leviathan4-0.png" alt=""></p>
+<p>11 bytes of binary. If we convert it to ASCII we get &ldquo;EKKlTF1Xqs&rdquo;. Looks like a password to me!</p>
+<h2 id="level-5--">Level 5 -</h2>
 
                     
                     <HR width="100%" id="EOF">
@@ -345,8 +392,8 @@ if (!doNotTrack) {
                 
                 
                 
-                <a class="older-posts" href="/posts/lev-draft/">
-			Previous<br>
+                <a class="older-posts">
+			Previous<br>No older posts.
                 </a>
                 
             </nav>
@@ -505,6 +552,42 @@ if (!doNotTrack) {
 							<li>
 								<a href="#level-3---level3" class="nav-level-3---level3">
 									Level 3 - ~/level3
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-4---trash" class="nav-level-4---trash">
+									Level 4 - ~/.trash
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-5--" class="nav-level-5--">
+									Level 5 -
 								</a>
 							</li>
 						
