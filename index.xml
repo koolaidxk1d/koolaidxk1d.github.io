@@ -6,19 +6,39 @@
     <description>Recent content on koolaidxk1d</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 May 2023 12:36:33 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 31 May 2023 19:30:02 -0400</lastBuildDate>
     
         <atom:link href="https://koolaidxk1d.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     
         <item>
-        <title>OverTheWire: Leviathan - write up</title>
-        <link>https://koolaidxk1d.github.io/posts/intro/</link>
+        <title>About</title>
+        <link>https://koolaidxk1d.github.io/posts/about/</link>
+        <pubDate>Wed, 31 May 2023 19:30:02 -0400</pubDate>
+        
+        <guid>https://koolaidxk1d.github.io/posts/about/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/about/ -&lt;p&gt;Y2K zoomer interested in offensive security. No professional experience &amp;hellip; yet.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;“The quieter you become, the more you can hear.”&lt;/em&gt;&lt;/p&gt;
+&lt;h1 id=&#34;links&#34;&gt;Links&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://based.cooking/&#34;&gt;https://based.cooking/&lt;/a&gt; - simple recipe website without the web bloat&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://teachyourselfcs.com/&#34;&gt;https://teachyourselfcs.com/&lt;/a&gt; - roadmap for self-taught CS education&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://book.hacktricks.xyz/&#34;&gt;https://book.hacktricks.xyz/&lt;/a&gt; - wiki with some useful info&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cheatsheetseries.owasp.org/index.html&#34;&gt;https://cheatsheetseries.owasp.org/index.html&lt;/a&gt; - OWASP Cheat Sheets&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://evoxt.com/&#34;&gt;https://evoxt.com/&lt;/a&gt; - cheap VPS, good customer support&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://new.reddit.com/r/hacking/wiki/index/&#34;&gt;https://new.reddit.com/r/hacking/wiki/index/&lt;/a&gt; - good resources listed here&lt;/p&gt;
+- https://koolaidxk1d.github.io/posts/about/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>OverTheWire: Leviathan</title>
+        <link>https://koolaidxk1d.github.io/posts/leviathan/</link>
         <pubDate>Sat, 27 May 2023 12:36:33 -0400</pubDate>
         
-        <guid>https://koolaidxk1d.github.io/posts/intro/</guid>
-        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/intro/ -- https://koolaidxk1d.github.io/posts/intro/ - </description>
+        <guid>https://koolaidxk1d.github.io/posts/leviathan/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/leviathan/ -- https://koolaidxk1d.github.io/posts/leviathan/ - </description>
         </item>
     
     
