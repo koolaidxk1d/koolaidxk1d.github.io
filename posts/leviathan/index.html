@@ -218,8 +218,8 @@ if (!doNotTrack) {
 						
 						
 							<li>
-								<a href="#level-5--" class="nav-level-5--">
-									Level 5 -
+								<a href="#level-5---leviathan5" class="nav-level-5---leviathan5">
+									Level 5 - ~/leviathan5
 								</a>
 							</li>
 						
@@ -373,7 +373,19 @@ if (!doNotTrack) {
 <p>There&rsquo;s a binary in the .trash folder. Let&rsquo;s see what it gives us.</p>
 <p><img src="/images/leviathan4-0.png" alt=""></p>
 <p>11 bytes of binary. If we convert it to ASCII we get &ldquo;EKKlTF1Xqs&rdquo;. Looks like a password to me!</p>
-<h2 id="level-5--">Level 5 -</h2>
+<h2 id="level-5---leviathan5">Level 5 - ~/leviathan5</h2>
+<p>We are met with a binary in the home folder named after the user. It is another setuid executable.</p>
+<p><img src="/images/leviathan5-0.png" alt=""></p>
+<p>Weirdly, it asks for file.log in /tmp/, and it deletes the file if it exists. Obviously we will have to look under the hood. Here is the main function as analyzed by Ghidra:</p>
+<p><img src="/images/leviathan5-1.png" alt=""></p>
+<p>So, we can see that the program first looks for a readable file at path /tmp/file.log. If it doesn&rsquo;t exist, it closes out. Otherwise, it reads the file stream character by character. As long as the character is not an EOF (end-of-file indicator), then it puts said character out to the screen. After that it simply sets the uid back to the calling user (leviathan5 in this case), and unlinks the file it has just read, which the program rightly assumes was created by the calling user.</p>
+<p>Soooo, how can we abuse this?</p>
+<p>Well, since we just mentioned &ldquo;unlink&rdquo;, what is a link anyway?</p>
+<p><img src="/images/leviathan5-2.png" alt=""></p>
+<p>So a link can be &ldquo;acted upon by the user or application in exactly the same manner&rdquo; as the file it is based upon. In other words, if I enact some command &ndash; say <em>cat</em> &ndash; on a link of a file, I will get the same output as if I ran it on the file itself.</p>
+<p>You can probably see where this is going.  Symbolic links can be created in linux using the command ln -s, with the first argument being the target file, and the second argument being the desired link path.</p>
+<p>If we create a link to the leviathan_pass/leviathan6 file, we should then be able to essentially have a pointer to the password contents residing in /tmp/file.log.</p>
+<p><img src="/images/leviathan5-3.png" alt=""></p>
 
                     
                     <HR width="100%" id="EOF">
@@ -586,8 +598,8 @@ if (!doNotTrack) {
 						
 						
 							<li>
-								<a href="#level-5--" class="nav-level-5--">
-									Level 5 -
+								<a href="#level-5---leviathan5" class="nav-level-5---leviathan5">
+									Level 5 - ~/leviathan5
 								</a>
 							</li>
 						

@@ -22,11 +22,13 @@
 &lt;p&gt;&lt;em&gt;“The quieter you become, the more you can hear.”&lt;/em&gt;&lt;/p&gt;
 &lt;h1 id=&#34;links&#34;&gt;Links&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://based.cooking/&#34;&gt;https://based.cooking/&lt;/a&gt; - simple recipe website without the web bloat&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://slipfox.xyz&#34;&gt;https://slipfox.xyz&lt;/a&gt; - free uploads, link shortening, and way more&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://teachyourselfcs.com/&#34;&gt;https://teachyourselfcs.com/&lt;/a&gt; - roadmap for self-taught CS education&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://book.hacktricks.xyz/&#34;&gt;https://book.hacktricks.xyz/&lt;/a&gt; - wiki with some useful info&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://cheatsheetseries.owasp.org/index.html&#34;&gt;https://cheatsheetseries.owasp.org/index.html&lt;/a&gt; - OWASP Cheat Sheets&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://evoxt.com/&#34;&gt;https://evoxt.com/&lt;/a&gt; - cheap VPS, good customer support&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://new.reddit.com/r/hacking/wiki/index/&#34;&gt;https://new.reddit.com/r/hacking/wiki/index/&lt;/a&gt; - good resources listed here&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gchq.github.io/CyberChef/&#34;&gt;https://gchq.github.io/CyberChef/&lt;/a&gt; - Extremely useful all-in-one hacking web tool&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/about/ - </description>
         </item>
     
@@ -103,7 +105,19 @@
 &lt;p&gt;There&amp;rsquo;s a binary in the .trash folder. Let&amp;rsquo;s see what it gives us.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan4-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;11 bytes of binary. If we convert it to ASCII we get &amp;ldquo;EKKlTF1Xqs&amp;rdquo;. Looks like a password to me!&lt;/p&gt;
-&lt;h2 id=&#34;level-5--&#34;&gt;Level 5 -&lt;/h2&gt;
+&lt;h2 id=&#34;level-5---leviathan5&#34;&gt;Level 5 - ~/leviathan5&lt;/h2&gt;
+&lt;p&gt;We are met with a binary in the home folder named after the user. It is another setuid executable.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan5-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Weirdly, it asks for file.log in /tmp/, and it deletes the file if it exists. Obviously we will have to look under the hood. Here is the main function as analyzed by Ghidra:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan5-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;So, we can see that the program first looks for a readable file at path /tmp/file.log. If it doesn&amp;rsquo;t exist, it closes out. Otherwise, it reads the file stream character by character. As long as the character is not an EOF (end-of-file indicator), then it puts said character out to the screen. After that it simply sets the uid back to the calling user (leviathan5 in this case), and unlinks the file it has just read, which the program rightly assumes was created by the calling user.&lt;/p&gt;
+&lt;p&gt;Soooo, how can we abuse this?&lt;/p&gt;
+&lt;p&gt;Well, since we just mentioned &amp;ldquo;unlink&amp;rdquo;, what is a link anyway?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan5-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;So a link can be &amp;ldquo;acted upon by the user or application in exactly the same manner&amp;rdquo; as the file it is based upon. In other words, if I enact some command &amp;ndash; say &lt;em&gt;cat&lt;/em&gt; &amp;ndash; on a link of a file, I will get the same output as if I ran it on the file itself.&lt;/p&gt;
+&lt;p&gt;You can probably see where this is going.  Symbolic links can be created in linux using the command ln -s, with the first argument being the target file, and the second argument being the desired link path.&lt;/p&gt;
+&lt;p&gt;If we create a link to the leviathan_pass/leviathan6 file, we should then be able to essentially have a pointer to the password contents residing in /tmp/file.log.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan5-3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/leviathan/ - </description>
         </item>
     
