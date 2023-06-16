@@ -89,7 +89,7 @@ There's our password!
 
 *Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.*
 
-
+---
 ## Level 3 - ~/level3
 Let's ls the home folder...
 
@@ -107,6 +107,7 @@ On lines 17-19 is our answer. These 3 variables are stored alongside each other 
 
 ![](/images/leviathan3-2.png)
 
+---
 ## Level 4 - ~/.trash
 
 There's a binary in the .trash folder. Let's see what it gives us.
@@ -115,6 +116,7 @@ There's a binary in the .trash folder. Let's see what it gives us.
 
 11 bytes of binary. If we convert it to ASCII we get "EKKlTF1Xqs". Looks like a password to me! 
 
+---
 ## Level 5 - ~/leviathan5
 
 We are met with a binary in the home folder named after the user. It is another setuid executable. 
@@ -141,3 +143,23 @@ If we create a link to the leviathan_pass/leviathan6 file, we should then be abl
 
 ![](/images/leviathan5-3.png)
 
+---
+## Level 6 - ~/leviathan6
+This one is *surprisingly easy.* I'll just let the decompiled C code speak for itself.
+
+![](/images/leviathan6-0.png)
+
+And here is how I obtain the password.
+
+![](/images/leviathan6-1.png)
+
+---
+## Level 7 - The end
+
+![](/images/leviathan7-0.png)
+
+---
+
+I've learned quite a lot about binaries through playing this game. I'm still intrigued and confused by system and function calls. I'm excited to begin the next OTW game in the very near future. It felt a bit like cheating using Ghidra's decompiler. I'm not sure if I was intended to look at raw assembly or not. Maybe there is no cheating. I guess I will find out later down the road.
+
+That's all for this one :)

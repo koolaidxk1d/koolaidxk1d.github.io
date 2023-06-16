@@ -93,6 +93,7 @@
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan2-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;There&amp;rsquo;s our password!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
 &lt;h2 id=&#34;level-3---level3&#34;&gt;Level 3 - ~/level3&lt;/h2&gt;
 &lt;p&gt;Let&amp;rsquo;s ls the home folder&amp;hellip;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan3-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
@@ -101,10 +102,12 @@
 &lt;p&gt;On lines 22-23, the program is taking input from the user, putting it into the buffer &amp;ldquo;local_110&amp;rdquo;, and then comparing it to the  string starting at the address of &amp;ldquo;local_11b&amp;rdquo; to determine if the user is allowed to access the shell call made on line 28. So our question is, what is stored at local_11b?&lt;/p&gt;
 &lt;p&gt;On lines 17-19 is our answer. These 3 variables are stored alongside each other in memory, and they contain &amp;ldquo;plns&amp;rdquo;, &amp;ldquo;tnir&amp;rdquo;, and &amp;ldquo;\nf&amp;rdquo;. Reversing these to big endian and concatenating them gives us &amp;ldquo;snlprintf\n&amp;rdquo;. Let&amp;rsquo;s try entering this as the password, omitting the newline character.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan3-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
 &lt;h2 id=&#34;level-4---trash&#34;&gt;Level 4 - ~/.trash&lt;/h2&gt;
 &lt;p&gt;There&amp;rsquo;s a binary in the .trash folder. Let&amp;rsquo;s see what it gives us.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan4-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;11 bytes of binary. If we convert it to ASCII we get &amp;ldquo;EKKlTF1Xqs&amp;rdquo;. Looks like a password to me!&lt;/p&gt;
+&lt;hr&gt;
 &lt;h2 id=&#34;level-5---leviathan5&#34;&gt;Level 5 - ~/leviathan5&lt;/h2&gt;
 &lt;p&gt;We are met with a binary in the home folder named after the user. It is another setuid executable.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan5-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
@@ -118,6 +121,18 @@
 &lt;p&gt;You can probably see where this is going.  Symbolic links can be created in linux using the command ln -s, with the first argument being the target file, and the second argument being the desired link path.&lt;/p&gt;
 &lt;p&gt;If we create a link to the leviathan_pass/leviathan6 file, we should then be able to essentially have a pointer to the password contents residing in /tmp/file.log.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan5-3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-6---leviathan6&#34;&gt;Level 6 - ~/leviathan6&lt;/h2&gt;
+&lt;p&gt;This one is &lt;em&gt;surprisingly easy.&lt;/em&gt; I&amp;rsquo;ll just let the decompiled C code speak for itself.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan6-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;And here is how I obtain the password.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan6-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-7---the-end&#34;&gt;Level 7 - The end&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan7-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;I&amp;rsquo;ve learned quite a lot about binaries through playing this game. I&amp;rsquo;m still intrigued and confused by system and function calls. I&amp;rsquo;m excited to begin the next OTW game in the very near future. It felt a bit like cheating using Ghidra&amp;rsquo;s decompiler. I&amp;rsquo;m not sure if I was intended to look at raw assembly or not. Maybe there is no cheating. I guess I will find out later down the road.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s all for this one :)&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/leviathan/ - </description>
         </item>
     

@@ -227,6 +227,42 @@ if (!doNotTrack) {
 					
 				
 			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-6---leviathan6" class="nav-level-6---leviathan6">
+									Level 6 - ~/leviathan6
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-7---the-end" class="nav-level-7---the-end">
+									Level 7 - The end
+								</a>
+							</li>
+						
+						
+					
+				
+			
 		</ul>
 	</div>
 
@@ -361,6 +397,7 @@ if (!doNotTrack) {
 <p><img src="/images/leviathan2-2.png" alt=""></p>
 <p>There&rsquo;s our password!</p>
 <p><em>Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.</em></p>
+<hr>
 <h2 id="level-3---level3">Level 3 - ~/level3</h2>
 <p>Let&rsquo;s ls the home folder&hellip;</p>
 <p><img src="/images/leviathan3-0.png" alt=""></p>
@@ -369,10 +406,12 @@ if (!doNotTrack) {
 <p>On lines 22-23, the program is taking input from the user, putting it into the buffer &ldquo;local_110&rdquo;, and then comparing it to the  string starting at the address of &ldquo;local_11b&rdquo; to determine if the user is allowed to access the shell call made on line 28. So our question is, what is stored at local_11b?</p>
 <p>On lines 17-19 is our answer. These 3 variables are stored alongside each other in memory, and they contain &ldquo;plns&rdquo;, &ldquo;tnir&rdquo;, and &ldquo;\nf&rdquo;. Reversing these to big endian and concatenating them gives us &ldquo;snlprintf\n&rdquo;. Let&rsquo;s try entering this as the password, omitting the newline character.</p>
 <p><img src="/images/leviathan3-2.png" alt=""></p>
+<hr>
 <h2 id="level-4---trash">Level 4 - ~/.trash</h2>
 <p>There&rsquo;s a binary in the .trash folder. Let&rsquo;s see what it gives us.</p>
 <p><img src="/images/leviathan4-0.png" alt=""></p>
 <p>11 bytes of binary. If we convert it to ASCII we get &ldquo;EKKlTF1Xqs&rdquo;. Looks like a password to me!</p>
+<hr>
 <h2 id="level-5---leviathan5">Level 5 - ~/leviathan5</h2>
 <p>We are met with a binary in the home folder named after the user. It is another setuid executable.</p>
 <p><img src="/images/leviathan5-0.png" alt=""></p>
@@ -386,6 +425,18 @@ if (!doNotTrack) {
 <p>You can probably see where this is going.  Symbolic links can be created in linux using the command ln -s, with the first argument being the target file, and the second argument being the desired link path.</p>
 <p>If we create a link to the leviathan_pass/leviathan6 file, we should then be able to essentially have a pointer to the password contents residing in /tmp/file.log.</p>
 <p><img src="/images/leviathan5-3.png" alt=""></p>
+<hr>
+<h2 id="level-6---leviathan6">Level 6 - ~/leviathan6</h2>
+<p>This one is <em>surprisingly easy.</em> I&rsquo;ll just let the decompiled C code speak for itself.</p>
+<p><img src="/images/leviathan6-0.png" alt=""></p>
+<p>And here is how I obtain the password.</p>
+<p><img src="/images/leviathan6-1.png" alt=""></p>
+<hr>
+<h2 id="level-7---the-end">Level 7 - The end</h2>
+<p><img src="/images/leviathan7-0.png" alt=""></p>
+<hr>
+<p>I&rsquo;ve learned quite a lot about binaries through playing this game. I&rsquo;m still intrigued and confused by system and function calls. I&rsquo;m excited to begin the next OTW game in the very near future. It felt a bit like cheating using Ghidra&rsquo;s decompiler. I&rsquo;m not sure if I was intended to look at raw assembly or not. Maybe there is no cheating. I guess I will find out later down the road.</p>
+<p>That&rsquo;s all for this one :)</p>
 
                     
                     <HR width="100%" id="EOF">
@@ -600,6 +651,42 @@ if (!doNotTrack) {
 							<li>
 								<a href="#level-5---leviathan5" class="nav-level-5---leviathan5">
 									Level 5 - ~/leviathan5
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-6---leviathan6" class="nav-level-6---leviathan6">
+									Level 6 - ~/leviathan6
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-7---the-end" class="nav-level-7---the-end">
+									Level 7 - The end
 								</a>
 							</li>
 						
