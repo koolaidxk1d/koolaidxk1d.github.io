@@ -6,22 +6,57 @@
     <description>Recent content in Posts on koolaidxk1d</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 31 May 2023 19:30:02 -0400</lastBuildDate><atom:link href="https://koolaidxk1d.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Jun 2023 19:38:23 -0400</lastBuildDate><atom:link href="https://koolaidxk1d.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>About</title>
-      <link>https://koolaidxk1d.github.io/posts/about/</link>
-      <pubDate>Wed, 31 May 2023 19:30:02 -0400</pubDate>
+      <title>Infographics</title>
+      <link>https://koolaidxk1d.github.io/posts/infographics/</link>
+      <pubDate>Wed, 21 Jun 2023 19:38:23 -0400</pubDate>
       
-      <guid>https://koolaidxk1d.github.io/posts/about/</guid>
-      <description>Y2K zoomer interested in offensive security. No professional experience &amp;hellip; yet.
-“The quieter you become, the more you can hear.”
-Links https://based.cooking/ - simple recipe website without the web bloat
+      <guid>https://koolaidxk1d.github.io/posts/infographics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OverTheWire: Natas</title>
+      <link>https://koolaidxk1d.github.io/posts/natas/</link>
+      <pubDate>Wed, 21 Jun 2023 18:16:32 -0400</pubDate>
+      
+      <guid>https://koolaidxk1d.github.io/posts/natas/</guid>
+      <description>Back for more password hunting! This time we are doing a more web-oriented wargame. Similarly to leviathan, no hints are given on the webpage. This game provides no SSH access; everything is done in the browser.
+I&amp;rsquo;m lacking in web-dev knowledge to say the least, so this will be quite challenging.
+ Level 0 The password is right in your face the moment you look at the html.
+ Level 1 Same story as level 0, however the workaround is just using the hotkey to open the inspector.</description>
+    </item>
+    
+    <item>
+      <title>Cool Links</title>
+      <link>https://koolaidxk1d.github.io/posts/links/</link>
+      <pubDate>Wed, 21 Jun 2023 18:16:22 -0400</pubDate>
+      
+      <guid>https://koolaidxk1d.github.io/posts/links/</guid>
+      <description>https://based.cooking/ - simple recipe website without the web bloat
 https://slipfox.xyz - free uploads, link shortening, and way more
 https://teachyourselfcs.com/ - roadmap for self-taught CS education
 https://book.hacktricks.xyz/ - wiki with some useful info
 https://cheatsheetseries.owasp.org/index.html - OWASP Cheat Sheets
 https://evoxt.com/ - cheap VPS, good customer support
-https://new.reddit.com/r/hacking/wiki/index/ - good resources listed here</description>
+https://new.reddit.com/r/hacking/wiki/index/ - good resources listed here
+https://gchq.github.io/CyberChef/ - Extremely useful all-in-one hacking web tool
+https://dogbolt.org - Online decompiler
+http://redtiger.labs.overthewire.org/ - SQL Injection Lab (not listed on OTW) (possibly more unindexed labs can be found thru google)</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://koolaidxk1d.github.io/posts/about/</link>
+      <pubDate>Wed, 31 May 2023 19:30:02 -0400</pubDate>
+      
+      <guid>https://koolaidxk1d.github.io/posts/about/</guid>
+      <description>Y2K zoomer interested in offensive security. No professional experience &amp;hellip; yet.
+The purpose of my blog is to learn in public. Hopefully by writing these posts I can not only help myself but possibly help others who stumble upon them.
+Thanks This blog is written with Obsidian, compiled with Hugo, and hosted with Github pages.
+The Hugo theme in use is Diary.
+Some music backgrounds taken from ericaofanderson on tumblr.</description>
     </item>
     
     <item>

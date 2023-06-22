@@ -6,22 +6,117 @@
     <description>Recent content on koolaidxk1d</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 31 May 2023 19:30:02 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 21 Jun 2023 19:38:23 -0400</lastBuildDate>
     
         <atom:link href="https://koolaidxk1d.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     
         <item>
-        <title>About</title>
-        <link>https://koolaidxk1d.github.io/posts/about/</link>
-        <pubDate>Wed, 31 May 2023 19:30:02 -0400</pubDate>
+        <title>Infographics</title>
+        <link>https://koolaidxk1d.github.io/posts/infographics/</link>
+        <pubDate>Wed, 21 Jun 2023 19:38:23 -0400</pubDate>
         
-        <guid>https://koolaidxk1d.github.io/posts/about/</guid>
-        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/about/ -&lt;p&gt;Y2K zoomer interested in offensive security. No professional experience &amp;hellip; yet.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;“The quieter you become, the more you can hear.”&lt;/em&gt;&lt;/p&gt;
-&lt;h1 id=&#34;links&#34;&gt;Links&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&#34;https://based.cooking/&#34;&gt;https://based.cooking/&lt;/a&gt; - simple recipe website without the web bloat&lt;/p&gt;
+        <guid>https://koolaidxk1d.github.io/posts/infographics/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/infographics/ -&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/infographic0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+- https://koolaidxk1d.github.io/posts/infographics/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>OverTheWire: Natas</title>
+        <link>https://koolaidxk1d.github.io/posts/natas/</link>
+        <pubDate>Wed, 21 Jun 2023 18:16:32 -0400</pubDate>
+        
+        <guid>https://koolaidxk1d.github.io/posts/natas/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/natas/ -&lt;p&gt;Back for more password hunting! This time we are doing a more web-oriented wargame. Similarly to leviathan, no hints are given on the webpage. This game provides no SSH access; everything is done in the browser.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m lacking in web-dev knowledge to say the least, so this will be quite challenging.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-0&#34;&gt;Level 0&lt;/h2&gt;
+&lt;p&gt;The password is right in your face the moment you look at the html.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas0-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-1&#34;&gt;Level 1&lt;/h2&gt;
+&lt;p&gt;Same story as level 0, however the workaround is just using the hotkey to open the inspector.
+&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas1-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-2&#34;&gt;Level 2&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas2-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;On this level, i can see a png file in the html. I decided to download it. I figured the password might be in the exif data, or perhaps in the raw bytes of the file itself.&lt;/p&gt;
+&lt;p&gt;No dice&amp;hellip;&lt;/p&gt;
+&lt;p&gt;Then I thought that maybe I just needed to hash the contents of the file&amp;hellip;.however the previous passwords were 32 char alphanumeric. To my knowledge that doesn&amp;rsquo;t follow the format of any hashing algorithms.&lt;/p&gt;
+&lt;p&gt;I wracked my brain for way too long before I realized that the file was in the &lt;strong&gt;files/ subdirectory&lt;/strong&gt;. I felt like a total idiot when I realized.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas2-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Inside users.txt was the password I sought.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-3&#34;&gt;Level 3&lt;/h2&gt;
+&lt;p&gt;I was stumped on this one for a while, until I thought harder about the comment in the html.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas3-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Not even Google will find it&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;When Google indexes your website, you can prevent it from crawling certain directories by specifying them in a file called &amp;ldquo;robots.txt&amp;rdquo;. Because of the very concept of this file, it must be publicly available. We can therefore access it by typing it into the url bar.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas3-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s navigate there.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas3-2.png&#34; alt=&#34;&#34;&gt;
+Once again, the pass is inside the txt.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-4&#34;&gt;Level 4&lt;/h2&gt;
+&lt;p&gt;This level seems to be picky about the place from where I was linked to the website.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas4-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;There is an HTTP header included in GET requests that specifies the &amp;ldquo;referrer&amp;rdquo;. I believe we will have to spoof this to appear as though we are coming from natas5. I couldn&amp;rsquo;t find a way to do this natively in the inspector, as the referrer header is greyed out and cannot be edited. I decided to use this firefox extension:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/referercontrol/&#34;&gt;https://addons.mozilla.org/en-US/firefox/addon/referercontrol/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Once I spoofed the referrer header I was given the password.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas4-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-5&#34;&gt;Level 5&lt;/h2&gt;
+&lt;p&gt;&amp;ldquo;Access disallowed. You are not logged in.&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;Well&amp;hellip;we are logged in using the password from the last level, but it seems there is another layer of access control on this level.&lt;/p&gt;
+&lt;p&gt;My first instinct is to check the cookies.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas5-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I set that to 1 and refreshed. Lo and behold, the password appeared.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-6&#34;&gt;Level 6&lt;/h2&gt;
+&lt;p&gt;A text box labeled &amp;ldquo;Input secret: &amp;quot; and a submit button. The source code is available for this level. Let&amp;rsquo;s take a look.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas6-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;If we look at the beginning of the php section, we can see that a file at &amp;ldquo;includes/secret.inc&amp;rdquo; is included in the file, which is likely where the secret is stored.&lt;/p&gt;
+&lt;p&gt;If we type that after the url we can direct the browser to the file.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas6-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Copy the secret into the form and it returns the password to the next level.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-7&#34;&gt;Level 7&lt;/h2&gt;
+&lt;p&gt;We have two links to different pages on the site. Opening the inspector gives us an interesting hint in the form of an html comment.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas7-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;It seems to want us to traverse to /etc/natas_webpass/ (where every user&amp;rsquo;s password resides).&lt;/p&gt;
+&lt;p&gt;In the url we can see that a url parameter is used called page. It likely refers to the filename of the page we are visiting. It may be possible to use &amp;ldquo;../&amp;rdquo; to go up a directory and get us to the file we want.&lt;/p&gt;
+&lt;p&gt;We can briefly test this by entering it once as the value. Now we get a warning shown:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas7-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This is actually a good thing, because we can see that it is indeed taking us to different places within the filesystem. Additionally, since this warning is so verbose, we can see where we are. Using this information, we can easily format the url as follows to get to the password:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;http://natas7.natas.labs.overthewire.org/index.php?page=../../../../etc/natas_webpass/natas8&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas7-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-8&#34;&gt;Level 8&lt;/h2&gt;
+&lt;p&gt;Once again, a level is asking for a secret input. The source code is provided.&lt;/p&gt;
+&lt;p&gt;In the source code, we can see the contents of the secret:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;levels/natas8-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We can see the exact formula used to create the encoded secret. Following the nested operations, we should first convert the hex to its binary representation, then reverse it, and finally base64 decode it. We can do all of this very quickly and easily with &lt;a href=&#34;https://gchq.github.io/CyberChef/&#34;&gt;CyberChef&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas8-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Entering the output gets us the password to level 9.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-9&#34;&gt;Level 9&lt;/h2&gt;
+&lt;p&gt;A search box allows us to search for a word in an unknown set of data. The site displays the search results under &amp;ldquo;Output:&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas9-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+- https://koolaidxk1d.github.io/posts/natas/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Cool Links</title>
+        <link>https://koolaidxk1d.github.io/posts/links/</link>
+        <pubDate>Wed, 21 Jun 2023 18:16:22 -0400</pubDate>
+        
+        <guid>https://koolaidxk1d.github.io/posts/links/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/links/ -&lt;p&gt;&lt;a href=&#34;https://based.cooking/&#34;&gt;https://based.cooking/&lt;/a&gt; - simple recipe website without the web bloat&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://slipfox.xyz&#34;&gt;https://slipfox.xyz&lt;/a&gt; - free uploads, link shortening, and way more&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://teachyourselfcs.com/&#34;&gt;https://teachyourselfcs.com/&lt;/a&gt; - roadmap for self-taught CS education&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://book.hacktricks.xyz/&#34;&gt;https://book.hacktricks.xyz/&lt;/a&gt; - wiki with some useful info&lt;/p&gt;
@@ -31,6 +126,25 @@
 &lt;p&gt;&lt;a href=&#34;https://gchq.github.io/CyberChef/&#34;&gt;https://gchq.github.io/CyberChef/&lt;/a&gt; - Extremely useful all-in-one hacking web tool&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://dogbolt.org&#34;&gt;https://dogbolt.org&lt;/a&gt; - Online decompiler&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;http://redtiger.labs.overthewire.org/&#34;&gt;http://redtiger.labs.overthewire.org/&lt;/a&gt; - SQL Injection Lab (not listed on OTW) (possibly more unindexed labs can be found thru google)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://justbeamit.com/&#34;&gt;https://justbeamit.com/&lt;/a&gt; - P2P direct file transfer, drag n drop, no sign up&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.tumbig.com/&#34;&gt;https://www.tumbig.com/&lt;/a&gt; - gifs and stuff&lt;/p&gt;
+- https://koolaidxk1d.github.io/posts/links/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>About Me</title>
+        <link>https://koolaidxk1d.github.io/posts/about/</link>
+        <pubDate>Wed, 31 May 2023 19:30:02 -0400</pubDate>
+        
+        <guid>https://koolaidxk1d.github.io/posts/about/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/about/ -&lt;p&gt;Y2K zoomer interested in offensive security. No professional experience &amp;hellip; yet.&lt;/p&gt;
+&lt;p&gt;The purpose of my blog is to &lt;a href=&#34;https://www.swyx.io/learn-in-public&#34;&gt;learn in public&lt;/a&gt;. Hopefully by writing these posts I can not only help myself but possibly help others who stumble upon them.&lt;/p&gt;
+&lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
+&lt;p&gt;This blog is written with &lt;a href=&#34;https://obsidian.md/&#34;&gt;Obsidian&lt;/a&gt;, compiled with &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and hosted with &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github pages&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The Hugo theme in use is &lt;a href=&#34;https://themes.gohugo.io/themes/hugo-theme-diary/&#34;&gt;Diary&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Some music backgrounds taken from &lt;a href=&#34;https://ericaofanderson.tumblr.com&#34;&gt;ericaofanderson on tumblr&lt;/a&gt;.&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/about/ - </description>
         </item>
     
