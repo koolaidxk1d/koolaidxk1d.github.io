@@ -319,6 +319,42 @@ if (!doNotTrack) {
 					
 				
 			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-10" class="nav-level-10">
+									Level 10
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-11" class="nav-level-11">
+									Level 11
+								</a>
+							</li>
+						
+						
+					
+				
+			
 		</ul>
 	</div>
 
@@ -475,7 +511,34 @@ Once again, the pass is inside the txt.</p>
 <h2 id="level-9">Level 9</h2>
 <p>A search box allows us to search for a word in an unknown set of data. The site displays the search results under &ldquo;Output:&rdquo;.</p>
 <p><img src="/images/natas9-0.png" alt=""></p>
-
+<p>In the source code we can see that the script is using passthru() to run linux commands on the system and direct stdout to the page.</p>
+<p><img src="/images/natas9-1.png" alt=""></p>
+<p>Any time a user-facing input has direct access to run commands on the system, it should be inspected for possibility of exploitation. In this case, we can easily use some special shell characters to run our own commands.</p>
+<p>Take a look at <a href="https://book.hacktricks.xyz/pentesting-web/command-injection#command-injection-execution">command injection overview</a> to see how just a few of these special characters work. I am going to make $key equal to <code>. &lt; /etc/natas_webpass/natas10 #</code>. So the entire command executed will now be <code>grep -i . &lt; /etc/natas_webpass/natas10 # dictionary.txt</code>.
+The dot tells grep to print indiscriminately. The (&lt;) tells grep to get the data to search from the file mentioned afterward. The (#) is a character used to comment out the rest of the line; since we cannot remove the &ldquo;dictionary.txt&rdquo; part, we just comment it out.</p>
+<p>Inputting our new $key string gives us the contents of the password file.</p>
+<hr>
+<h2 id="level-10">Level 10</h2>
+<p>Looks like we have the same challenge again, except some characters are filtered out of the input.</p>
+<p><img src="/images/natas10-0.png" alt=""></p>
+<p>Let&rsquo;s check and see which characters are not allowed.</p>
+<p><img src="/images/natas10-1.png" alt=""></p>
+<p>&ldquo;preg_match()&rdquo; is a function which uses regex. As you can see it is checking for &ldquo;/[;|&amp;]/&rdquo;. In regex terms, it is actually just looking for either a &ldquo;;&rdquo; or a &ldquo;&amp;&rdquo;. I did not use either of those in my solution so I can just reuse the previous solution (changing the filename obviously).</p>
+<hr>
+<h2 id="level-11">Level 11</h2>
+<p>This is where this warbox starts to get challenging for me. The goal of this level seems to be to change the data cookie to the proper value so that the password will be revealed. The problem is that the cookie is XOR encrypted.</p>
+<p><img src="/images/natas11-0.png" alt=""></p>
+<p>The page first checks if a saved cookie already exists. If it does, make sure that it is authentically encrypted with the XOR key. If it is, then load the values for background color and whether to show the password. If it is inauthentic, it will be rejected and the default &ldquo;showpassword&rdquo; value (&ldquo;no&rdquo;) will be used.</p>
+<p>So we obviously need to somehow create a json key-value pair with showpassword set to &ldquo;yes&rdquo; and encrypt it and place it into our cookies. But how can we encrypt without knowing the key?</p>
+<p><a href="https://www.101computing.net/xor-encryption-algorithm/">XOR encryption</a> is a larger topic which I will not write about, but to sum up the information relevant to this level I will point out that knowing the ciphertext and plaintext can actually make getting the key extremely simple.</p>
+<p>If C is the ciphertext, P is the plaintext, and K is the key, then we can say the following:</p>
+<p>C XOR P = K
+P XOR K = C
+C XOR K = P</p>
+<p>Great, so in our case what are the ciphertext and plaintext? Well, the plaintext would be the json encoding of $defaultdata, and the ciphertext would be found in our cookies! The ciphertext is base64 encoded as per the source code, so we first need to decode that.</p>
+<pre><code>P: {&quot;showpassword&quot;: &quot;no&quot;, &quot;bgcolor&quot;: &quot;#ffffff&quot;}
+C: 0l;$$98-8=?#9*jvi 'ngl*+(!$#9lrnh(.*-(.n6
+</code></pre>
                     
                     <HR width="100%" id="EOF">
 		    <p style="color:#777;">Last modified on 2023-06-21</p>
@@ -781,6 +844,42 @@ Once again, the pass is inside the txt.</p>
 							<li>
 								<a href="#level-9" class="nav-level-9">
 									Level 9
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-10" class="nav-level-10">
+									Level 10
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-11" class="nav-level-11">
+									Level 11
 								</a>
 							</li>
 						

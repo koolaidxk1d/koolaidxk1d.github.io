@@ -105,7 +105,34 @@ Once again, the pass is inside the txt.&lt;/p&gt;
 &lt;h2 id=&#34;level-9&#34;&gt;Level 9&lt;/h2&gt;
 &lt;p&gt;A search box allows us to search for a word in an unknown set of data. The site displays the search results under &amp;ldquo;Output:&amp;rdquo;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas9-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-- https://koolaidxk1d.github.io/posts/natas/ - </description>
+&lt;p&gt;In the source code we can see that the script is using passthru() to run linux commands on the system and direct stdout to the page.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas9-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Any time a user-facing input has direct access to run commands on the system, it should be inspected for possibility of exploitation. In this case, we can easily use some special shell characters to run our own commands.&lt;/p&gt;
+&lt;p&gt;Take a look at &lt;a href=&#34;https://book.hacktricks.xyz/pentesting-web/command-injection#command-injection-execution&#34;&gt;command injection overview&lt;/a&gt; to see how just a few of these special characters work. I am going to make $key equal to &lt;code&gt;. &amp;lt; /etc/natas_webpass/natas10 #&lt;/code&gt;. So the entire command executed will now be &lt;code&gt;grep -i . &amp;lt; /etc/natas_webpass/natas10 # dictionary.txt&lt;/code&gt;.
+The dot tells grep to print indiscriminately. The (&amp;lt;) tells grep to get the data to search from the file mentioned afterward. The (#) is a character used to comment out the rest of the line; since we cannot remove the &amp;ldquo;dictionary.txt&amp;rdquo; part, we just comment it out.&lt;/p&gt;
+&lt;p&gt;Inputting our new $key string gives us the contents of the password file.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-10&#34;&gt;Level 10&lt;/h2&gt;
+&lt;p&gt;Looks like we have the same challenge again, except some characters are filtered out of the input.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas10-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s check and see which characters are not allowed.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas10-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;preg_match()&amp;rdquo; is a function which uses regex. As you can see it is checking for &amp;ldquo;/[;|&amp;amp;]/&amp;rdquo;. In regex terms, it is actually just looking for either a &amp;ldquo;;&amp;rdquo; or a &amp;ldquo;&amp;amp;&amp;rdquo;. I did not use either of those in my solution so I can just reuse the previous solution (changing the filename obviously).&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-11&#34;&gt;Level 11&lt;/h2&gt;
+&lt;p&gt;This is where this warbox starts to get challenging for me. The goal of this level seems to be to change the data cookie to the proper value so that the password will be revealed. The problem is that the cookie is XOR encrypted.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The page first checks if a saved cookie already exists. If it does, make sure that it is authentically encrypted with the XOR key. If it is, then load the values for background color and whether to show the password. If it is inauthentic, it will be rejected and the default &amp;ldquo;showpassword&amp;rdquo; value (&amp;ldquo;no&amp;rdquo;) will be used.&lt;/p&gt;
+&lt;p&gt;So we obviously need to somehow create a json key-value pair with showpassword set to &amp;ldquo;yes&amp;rdquo; and encrypt it and place it into our cookies. But how can we encrypt without knowing the key?&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.101computing.net/xor-encryption-algorithm/&#34;&gt;XOR encryption&lt;/a&gt; is a larger topic which I will not write about, but to sum up the information relevant to this level I will point out that knowing the ciphertext and plaintext can actually make getting the key extremely simple.&lt;/p&gt;
+&lt;p&gt;If C is the ciphertext, P is the plaintext, and K is the key, then we can say the following:&lt;/p&gt;
+&lt;p&gt;C XOR P = K
+P XOR K = C
+C XOR K = P&lt;/p&gt;
+&lt;p&gt;Great, so in our case what are the ciphertext and plaintext? Well, the plaintext would be the json encoding of $defaultdata, and the ciphertext would be found in our cookies! The ciphertext is base64 encoded as per the source code, so we first need to decode that.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;P: {&amp;quot;showpassword&amp;quot;: &amp;quot;no&amp;quot;, &amp;quot;bgcolor&amp;quot;: &amp;quot;#ffffff&amp;quot;}
+C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
+&lt;/code&gt;&lt;/pre&gt;- https://koolaidxk1d.github.io/posts/natas/ - </description>
         </item>
     
     
