@@ -24,16 +24,14 @@
 
 
 
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GGX6B7CJG5"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'G-GGX6B7CJG5', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GGX6B7CJG5', { 'anonymize_ip': false });
 }
 </script>
 
@@ -56,7 +54,7 @@ if (!doNotTrack) {
     
     <link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="/scss/dark-mode.min.a6b0bcb25b2aaef899d0a3c8ae731ea776edd7912254d9a502cf30f2983c19d3.css" integrity="sha256-prC8slsqrviZ0KPIrnMep3bt15EiVNmlAs8w8pg8GdM=" media="screen">
+<link rel="stylesheet" href="/scss/dark-mode.min.8639175447dba9c4492e41267341943ef380ff56cf71923d2496213542d91fc5.css" integrity="sha256-hjkXVEfbqcRJLkEmc0GUPvOA/1bPcZI9JJYhNULZH8U=" media="screen">
 
 
 <link rel="stylesheet"
@@ -355,6 +353,24 @@ if (!doNotTrack) {
 					
 				
 			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-12" class="nav-level-12">
+									Level 12
+								</a>
+							</li>
+						
+						
+					
+				
+			
 		</ul>
 	</div>
 
@@ -536,9 +552,17 @@ The dot tells grep to print indiscriminately. The (&lt;) tells grep to get the d
 P XOR K = C
 C XOR K = P</p>
 <p>Great, so in our case what are the ciphertext and plaintext? Well, the plaintext would be the json encoding of $defaultdata, and the ciphertext would be found in our cookies! The ciphertext is base64 encoded as per the source code, so we first need to decode that.</p>
-<pre><code>P: {&quot;showpassword&quot;: &quot;no&quot;, &quot;bgcolor&quot;: &quot;#ffffff&quot;}
-C: 0l;$$98-8=?#9*jvi 'ngl*+(!$#9lrnh(.*-(.n6
-</code></pre>
+<pre tabindex="0"><code>P: {&#34;showpassword&#34;: &#34;no&#34;, &#34;bgcolor&#34;: &#34;#ffffff&#34;}
+C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
+</code></pre><p>To XOR these together I simply stole the source code, set the $key value to our plaintext, and called the xor_encrypt() function on the ciphertext. I ran it using a PHP interpreter and echoed the result.</p>
+<p><img src="/images/natas11-1.png" alt=""></p>
+<p>The repeating characters are the key. &ldquo;KNHL&rdquo;. Now that we have the XOR key, all we have to do is encode our own cookie and place it in to the browser. I will once again use the source code to do this, but this time placing our key into $key, placing the modified json pair into the argument of xor_encrypt(), and running base64_encode on the result.</p>
+<p><img src="/images/natas11-2.png" alt=""></p>
+<p>To actually use our new cookie, we just need to replace the data cookie with our new value and refresh the page.</p>
+<p><img src="/images/natas11-3.png" alt=""></p>
+<hr>
+<h2 id="level-12">Level 12</h2>
+
                     
                     <HR width="100%" id="EOF">
 		    <p style="color:#777;">Last modified on 2023-06-21</p>
@@ -880,6 +904,24 @@ C: 0l;$$98-8=?#9*jvi 'ngl*+(!$#9lrnh(.*-(.n6
 							<li>
 								<a href="#level-11" class="nav-level-11">
 									Level 11
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-12" class="nav-level-12">
+									Level 12
 								</a>
 							</li>
 						

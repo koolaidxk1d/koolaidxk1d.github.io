@@ -130,9 +130,17 @@ The dot tells grep to print indiscriminately. The (&amp;lt;) tells grep to get t
 P XOR K = C
 C XOR K = P&lt;/p&gt;
 &lt;p&gt;Great, so in our case what are the ciphertext and plaintext? Well, the plaintext would be the json encoding of $defaultdata, and the ciphertext would be found in our cookies! The ciphertext is base64 encoded as per the source code, so we first need to decode that.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;P: {&amp;quot;showpassword&amp;quot;: &amp;quot;no&amp;quot;, &amp;quot;bgcolor&amp;quot;: &amp;quot;#ffffff&amp;quot;}
-C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
-&lt;/code&gt;&lt;/pre&gt;- https://koolaidxk1d.github.io/posts/natas/ - </description>
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;P: {&amp;#34;showpassword&amp;#34;: &amp;#34;no&amp;#34;, &amp;#34;bgcolor&amp;#34;: &amp;#34;#ffffff&amp;#34;}
+C: 0l;$$98-8=?#9*jvi &amp;#39;ngl*+(!$#9lrnh(.*-(.n6
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To XOR these together I simply stole the source code, set the $key value to our plaintext, and called the xor_encrypt() function on the ciphertext. I ran it using a PHP interpreter and echoed the result.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The repeating characters are the key. &amp;ldquo;KNHL&amp;rdquo;. Now that we have the XOR key, all we have to do is encode our own cookie and place it in to the browser. I will once again use the source code to do this, but this time placing our key into $key, placing the modified json pair into the argument of xor_encrypt(), and running base64_encode on the result.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To actually use our new cookie, we just need to replace the data cookie with our new value and refresh the page.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-12&#34;&gt;Level 12&lt;/h2&gt;
+- https://koolaidxk1d.github.io/posts/natas/ - </description>
         </item>
     
     
@@ -171,7 +179,6 @@ C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 &lt;p&gt;This blog is written with &lt;a href=&#34;https://obsidian.md/&#34;&gt;Obsidian&lt;/a&gt;, compiled with &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and hosted with &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github pages&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Hugo theme in use is &lt;a href=&#34;https://themes.gohugo.io/themes/hugo-theme-diary/&#34;&gt;Diary&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Music backgrounds taken from &lt;a href=&#34;https://ericaofanderson.tumblr.com&#34;&gt;ericaofanderson on tumblr&lt;/a&gt;.&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/about/ - </description>
         </item>
     
@@ -232,7 +239,7 @@ C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;p&gt;&lt;em&gt;But there is a catch.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The only way the system call will be made is if the parameter also matches a legitimate accessible file, given the conditional statement(s) at lines 23-24.&lt;/p&gt;
 &lt;p&gt;How about we name a file after the command we need to run following &amp;ldquo;/bin/cat&amp;rdquo;? We can use the special character &amp;lsquo;&amp;amp;&amp;rsquo; to run another command directly after cat.&lt;/p&gt;
-&lt;p&gt;Let&amp;rsquo;s touch the file &lt;strong&gt;&#39;&amp;amp;sh&#39;&lt;/strong&gt; and try to use it as an input to printfile. This should give us a shell running under leviathan3.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s touch the file &lt;strong&gt;&amp;rsquo;&amp;amp;sh&amp;rsquo;&lt;/strong&gt; and try to use it as an input to printfile. This should give us a shell running under leviathan3.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan2-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;There&amp;rsquo;s our password!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.&lt;/em&gt;&lt;/p&gt;
