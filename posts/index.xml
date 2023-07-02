@@ -24,8 +24,8 @@
       <guid>https://koolaidxk1d.github.io/posts/natas/</guid>
       <description>Back for more password hunting! This time we are doing a more web-oriented wargame. Similarly to leviathan, no hints are given on the webpage. This game provides no SSH access; everything is done in the browser.
 I&amp;rsquo;m lacking in web-dev knowledge to say the least, so this will be quite challenging.
- Level 0 The password is right in your face the moment you look at the html.
- Level 1 Same story as level 0, however the workaround is just using the hotkey to open the inspector.</description>
+Level 0 The password is right in your face the moment you look at the html.
+Level 1 Same story as level 0, however the workaround is just using the hotkey to open the inspector.</description>
     </item>
     
     <item>
@@ -66,7 +66,7 @@ The Hugo theme in use is Diary.</description>
       <guid>https://koolaidxk1d.github.io/posts/leviathan/</guid>
       <description>OverTheWire&amp;rsquo;s Leviathan wargame is all about reverse engineering of x86 binaries. The description of the game states that it only requires knowledge of linux command line utilities, and little to no programming experience.
 Each level goes as such:
- You ssh into the server as the user whose password you obtained from the previous level. Through whatever means necessary, you get the password to the next level.  There are no hints given for any of the levels, so it is completely up to us to figure out what we are looking for.</description>
+You ssh into the server as the user whose password you obtained from the previous level. Through whatever means necessary, you get the password to the next level. There are no hints given for any of the levels, so it is completely up to us to figure out what we are looking for.</description>
     </item>
     
   </channel>
