@@ -405,7 +405,7 @@ if (!doNotTrack) {
 <p>Again we begin with a setuid binary owned by the next level&rsquo;s user.</p>
 <p><img src="/images/leviathan2-0.png" alt=""></p>
 <p>The program prints a file specified by the user at runtime. But strangely, this setuid binary, although owned by leviathan3, can&rsquo;t access leviathan3&rsquo;s password file.</p>
-<p>Ahem, Ghidra!</p>
+<p>We will again use Ghidra to look into this.</p>
 <p><img src="/images/leviathan2-1.png" alt=""></p>
 <p>Ok, we can see that the program checks if a file is accessible to the current UID (leviathan2) before conditionally checking whether to set the uid to leviathan3.</p>
 <p>This explains why we were not able to print the file.</p>
