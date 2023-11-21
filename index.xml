@@ -6,9 +6,27 @@
     <description>Recent content on koolaidxk1d</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Jun 2023 19:38:23 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 21 Nov 2023 14:50:12 -0500</lastBuildDate>
     
         <atom:link href="https://koolaidxk1d.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>Snippets</title>
+        <link>https://koolaidxk1d.github.io/posts/snippets/</link>
+        <pubDate>Tue, 21 Nov 2023 14:50:12 -0500</pubDate>
+        
+        <guid>https://koolaidxk1d.github.io/posts/snippets/</guid>
+        <description>koolaidxk1d https://koolaidxk1d.github.io/posts/snippets/ -&lt;h3 id=&#34;make-wsl2-accessible-via-lan&#34;&gt;Make WSL2 accessible via LAN&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Powershell (paste as a multi-line command):&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;netsh interface portproxy add v4tov4
+listenport=X
+listenaddress=0.0.0.0
+connectport=Y connectaddress=z.z.z.z
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;Replace X with your desired LAN facing port, Y with your WSL2-side port, and z.z.z.z with the ip of your WSL2 installation (find using &lt;code&gt;hostname -I&lt;/code&gt;)&lt;/em&gt;&lt;/p&gt;
+- https://koolaidxk1d.github.io/posts/snippets/ - </description>
+        </item>
     
     
     
@@ -411,6 +429,7 @@ for i in range(1, 640):
         
         <guid>https://koolaidxk1d.github.io/posts/links/</guid>
         <description>koolaidxk1d https://koolaidxk1d.github.io/posts/links/ -&lt;h2 id=&#34;services&#34;&gt;Services&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://susflix.tv/&#34;&gt;Susflix&lt;/a&gt; - free netflix clone, better movies&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://evoxt.com/&#34;&gt;evoxt.com&lt;/a&gt; - cheap VPS, good customer support&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://real-debrid.com/&#34;&gt;real-debrid.com&lt;/a&gt; - very cheap, unlocks all paid filehost websites (1fichier etc.). Also converts torrents to direct http downloads. A must-have for movie obtainers.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://pixeldrain.com/&#34;&gt;https://pixeldrain.com/&lt;/a&gt; - free file uploading, no signup no bs (also has paid plans)&lt;/p&gt;
