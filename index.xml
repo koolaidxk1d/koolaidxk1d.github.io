@@ -19,13 +19,17 @@
         
         <guid>https://koolaidxk1d.github.io/posts/snippets/</guid>
         <description>koolaidxk1d https://koolaidxk1d.github.io/posts/snippets/ -&lt;h3 id=&#34;make-wsl2-accessible-via-lan&#34;&gt;Make WSL2 accessible via LAN&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Powershell (paste as a multi-line command):&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;netsh interface portproxy add v4tov4
-listenport=X
-listenaddress=0.0.0.0
+&lt;p&gt;&lt;strong&gt;Powershell:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;netsh interface portproxy add v4tov4 `
+listenport=X `
+listenaddress=0.0.0.0 `
 connectport=Y connectaddress=z.z.z.z
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;Replace X with your desired LAN facing port, Y with your WSL2-side port, and z.z.z.z with the ip of your WSL2 installation (find using &lt;code&gt;hostname -I&lt;/code&gt;)&lt;/em&gt;&lt;/p&gt;
-- https://koolaidxk1d.github.io/posts/snippets/ - </description>
+&lt;p&gt;&lt;strong&gt;To Undo:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;netsh interface portproxy delete v4tov4 `
+listenport=X `
+listenaddress=0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;- https://koolaidxk1d.github.io/posts/snippets/ - </description>
         </item>
     
     

@@ -13,8 +13,10 @@
       <pubDate>Tue, 21 Nov 2023 14:50:12 -0500</pubDate>
       
       <guid>https://koolaidxk1d.github.io/posts/snippets/</guid>
-      <description>Make WSL2 accessible via LAN Powershell (paste as a multi-line command):
-netsh interface portproxy add v4tov4 listenport=X listenaddress=0.0.0.0 connectport=Y connectaddress=z.z.z.z Replace X with your desired LAN facing port, Y with your WSL2-side port, and z.z.z.z with the ip of your WSL2 installation (find using hostname -I)</description>
+      <description>Make WSL2 accessible via LAN Powershell:
+netsh interface portproxy add v4tov4 ` listenport=X ` listenaddress=0.0.0.0 ` connectport=Y connectaddress=z.z.z.z Replace X with your desired LAN facing port, Y with your WSL2-side port, and z.z.z.z with the ip of your WSL2 installation (find using hostname -I)
+To Undo:
+netsh interface portproxy delete v4tov4 ` listenport=X ` listenaddress=0.0.0.0 </description>
     </item>
     
     <item>

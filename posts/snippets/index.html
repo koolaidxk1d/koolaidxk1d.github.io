@@ -246,13 +246,17 @@ if (!doNotTrack) {
                 <div class="post-body" v-pre>
                 
                     <h3 id="make-wsl2-accessible-via-lan">Make WSL2 accessible via LAN</h3>
-<p><strong>Powershell (paste as a multi-line command):</strong></p>
-<pre tabindex="0"><code>netsh interface portproxy add v4tov4
-listenport=X
-listenaddress=0.0.0.0
+<p><strong>Powershell:</strong></p>
+<pre tabindex="0"><code>netsh interface portproxy add v4tov4 `
+listenport=X `
+listenaddress=0.0.0.0 `
 connectport=Y connectaddress=z.z.z.z
 </code></pre><p><em>Replace X with your desired LAN facing port, Y with your WSL2-side port, and z.z.z.z with the ip of your WSL2 installation (find using <code>hostname -I</code>)</em></p>
-
+<p><strong>To Undo:</strong></p>
+<pre tabindex="0"><code>netsh interface portproxy delete v4tov4 `
+listenport=X `
+listenaddress=0.0.0.0
+</code></pre>
                     
                     <HR width="100%" id="EOF">
 		    <p style="color:#777;">Last modified on 2023-11-21</p>
