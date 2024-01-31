@@ -155,10 +155,6 @@ if (!doNotTrack) {
 									<ul>
 								
 							
-								
-									<ul>
-								
-							
 						
 						
 							<li>
@@ -245,7 +241,8 @@ if (!doNotTrack) {
                 
                 <div class="post-body" v-pre>
                 
-                    <h3 id="make-wsl2-accessible-via-lan">Make WSL2 accessible via LAN</h3>
+                    <h2 id="make-wsl2-accessible-via-lan">Make WSL2 accessible via LAN</h2>
+<p>First, add a netsh interface.</p>
 <p><strong>Powershell:</strong></p>
 <pre tabindex="0"><code>netsh interface portproxy add v4tov4 `
 listenport=X `
@@ -256,7 +253,8 @@ connectport=Y connectaddress=z.z.z.z
 <pre tabindex="0"><code>netsh interface portproxy delete v4tov4 `
 listenport=X `
 listenaddress=0.0.0.0
-</code></pre>
+</code></pre><p>After adding the interface, you must also create an Inbound Rule on Windows Firewall to allow the port over TCP.</p>
+
                     
                     <HR width="100%" id="EOF">
 		    <p style="color:#777;">Last modified on 2023-11-21</p>
@@ -268,8 +266,8 @@ listenaddress=0.0.0.0
             <nav class="post-pagination">
 
                 
-                <a class="newer-posts">
-			Next<br>No newer posts.
+                <a class="newer-posts" href="/posts/bs-submission/">
+			Next<br>My Sample Quest for Beyond Skyrim
                 </a>
                 
                 
@@ -372,7 +370,7 @@ listenaddress=0.0.0.0
 
 &copy;
 	
-	2023 koolaidxk1d
+	2024 koolaidxk1d
 	
 
     </div>
@@ -402,10 +400,6 @@ listenaddress=0.0.0.0
 						
 						
 						
-							
-								
-									<ul>
-								
 							
 								
 									<ul>
@@ -449,7 +443,7 @@ listenaddress=0.0.0.0
 
 &copy;
 	
-	2023 koolaidxk1d
+	2024 koolaidxk1d
 	
 </div>
             </div>

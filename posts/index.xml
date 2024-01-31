@@ -6,17 +6,28 @@
     <description>Recent content in Posts on koolaidxk1d</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Nov 2023 14:50:12 -0500</lastBuildDate><atom:link href="https://koolaidxk1d.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Jan 2024 19:47:49 -0500</lastBuildDate><atom:link href="https://koolaidxk1d.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Sample Quest for Beyond Skyrim</title>
+      <link>https://koolaidxk1d.github.io/posts/bs-submission/</link>
+      <pubDate>Tue, 30 Jan 2024 19:47:49 -0500</pubDate>
+      
+      <guid>https://koolaidxk1d.github.io/posts/bs-submission/</guid>
+      <description>This is my submission for my application to join the Beyond Skyrim development team.
+Download bs-submission.zip</description>
+    </item>
+    
     <item>
       <title>Snippets</title>
       <link>https://koolaidxk1d.github.io/posts/snippets/</link>
       <pubDate>Tue, 21 Nov 2023 14:50:12 -0500</pubDate>
       
       <guid>https://koolaidxk1d.github.io/posts/snippets/</guid>
-      <description>Make WSL2 accessible via LAN Powershell:
+      <description>Make WSL2 accessible via LAN First, add a netsh interface.
+Powershell:
 netsh interface portproxy add v4tov4 ` listenport=X ` listenaddress=0.0.0.0 ` connectport=Y connectaddress=z.z.z.z Replace X with your desired LAN facing port, Y with your WSL2-side port, and z.z.z.z with the ip of your WSL2 installation (find using hostname -I)
 To Undo:
-netsh interface portproxy delete v4tov4 ` listenport=X ` listenaddress=0.0.0.0 </description>
+netsh interface portproxy delete v4tov4 ` listenport=X ` listenaddress=0.0.0.0 After adding the interface, you must also create an Inbound Rule on Windows Firewall to allow the port over TCP.</description>
     </item>
     
     <item>
@@ -50,9 +61,8 @@ Level 1 Same story as level 0, however the workaround is just using the hotkey t
 evoxt.com - cheap VPS, good customer support
 real-debrid.com - very cheap, unlocks all paid filehost websites (1fichier etc.). Also converts torrents to direct http downloads. A must-have for movie obtainers.
 https://pixeldrain.com/ - free file uploading, no signup no bs (also has paid plans)
-Web Tools Regex101 - helps you make regex expressions
-deepl/translator - better than google translate
-Photopea - photoshop clone, free, no signup</description>
+Free Media Torrminator - torrents for GOG games, linux programs, retro games, scene releases, etc.
+Web Tools Regex101 - helps you make regex expressions</description>
     </item>
     
     <item>
